@@ -5,7 +5,18 @@
   "hooks": [
     { "hook": "static:app.load", "method": "init" },
     { "hook": "static:api.routes", "method": "addRoutes" },
-    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" }
+    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
+    { "hook": "filter:user.whitelistFields", "method": "whitelistFields" },
+    { "hook": "filter:register.build", "method": "addField" },
+    { "hook": "filter:register.check", "method": "checkField" },
+    {
+      "hook": "filter:admin.registrationQueue.customHeaders",
+      "method": "customHeaders"
+    },
+    { "hook": "filter:user.getRegistrationQueue", "method": "customFields" },
+    { "hook": "filter:user.create", "method": "creatingUser" },
+    { "hook": "action:user.create", "method": "createdUser" },
+    { "hook": "filter:user.addToApprovalQueue", "method": "addToApprovalQueue" }
   ],
   "staticDirs": {
     "static": "./static"
