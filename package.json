@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-limf",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Custom plugin for the LIMF forum",
   "main": "library.js",
   "repository": {
