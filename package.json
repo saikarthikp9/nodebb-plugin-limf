@@ -1,0 +1,45 @@
+{
+  "name": "nodebb-plugin-limf",
+  "version": "0.0.0",
+  "description": "Custom plugin for the LIMF forum",
+  "main": "library.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saikarthikp9/nodebb-plugin-limf"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "limf",
+    "shell"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saikarthikp9/nodebb-plugin-limf/issues"
+  },
+  "readmeFilename": "README.md",
+  "nbbpm": {
+    "compatibility": "^3.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "18.4.0",
+    "@commitlint/config-angular": "18.4.0",
+    "eslint": "8.x",
+    "eslint-config-nodebb": "0.2.1",
+    "eslint-plugin-import": "2.x",
+    "husky": "8.0.3",
+    "lint-staged": "15.0.2"
+  }
+}
