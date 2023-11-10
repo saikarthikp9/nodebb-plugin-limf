@@ -116,7 +116,7 @@ plugin.init = async (params) => {
   const { router /* , middleware , controllers */ } = params;
 
   // Settings saved in the plugin settings can be retrieved via settings methods
-  const { setting1, setting2 } = await meta.settings.get("quickstart");
+  const { setting1, setting2 } = await meta.settings.get("limf");
   if (setting1) {
     console.log(setting2);
   }
@@ -129,28 +129,26 @@ plugin.init = async (params) => {
    * */
   routeHelpers.setupPageRoute(
     router,
-    "/quickstart",
+    "/limf",
     [
       (req, res, next) => {
         winston.info(
-          `[plugins/quickstart] In middleware. This argument can be either a single middleware or an array of middlewares`
+          `[plugins/limf] In middleware. This argument can be either a single middleware or an array of middlewares`
         );
         setImmediate(next);
       },
     ],
     (req, res) => {
       winston.info(
-        `[plugins/quickstart] Navigated to ${nconf.get(
-          "relative_path"
-        )}/quickstart`
+        `[plugins/limf] Navigated to ${nconf.get("relative_path")}/limf`
       );
-      res.render("quickstart", { uid: req.uid });
+      res.render("limf", { uid: req.uid });
     }
   );
 
   routeHelpers.setupAdminPageRoute(
     router,
-    "/admin/plugins/quickstart",
+    "/admin/plugins/limf",
     controllers.renderAdminPage
   );
 };
@@ -166,7 +164,7 @@ plugin.init = async (params) => {
  *
  * To call this example route:
  *   curl -X GET \
- * 		http://example.org/api/v3/plugins/quickstart/test \
+ * 		http://example.org/api/v3/plugins/limf/test \
  * 		-H "Authorization: Bearer some_valid_bearer_token"
  *
  * Will yield the following response JSON:
@@ -189,7 +187,7 @@ plugin.addRoutes = async ({ router, middleware, helpers }) => {
   routeHelpers.setupApiRoute(
     router,
     "get",
-    "/quickstart/:param1",
+    "/limf/:param1",
     middlewares,
     (req, res) => {
       helpers.formatApiResponse(200, res, {
@@ -201,9 +199,9 @@ plugin.addRoutes = async ({ router, middleware, helpers }) => {
 
 plugin.addAdminNavigation = (header) => {
   header.plugins.push({
-    route: "/plugins/quickstart",
+    route: "/plugins/limf",
     icon: "fa-tint",
-    name: "Quickstart",
+    name: "Love Is My Form",
   });
 
   return header;

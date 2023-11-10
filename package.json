@@ -1,5 +1,5 @@
 {
-  "name": "nodebb-plugin-limf",
+  "name": "nodebb-plugin-saiberio-limf",
   "version": "0.0.3",
   "description": "Custom plugin for the LIMF forum",
   "main": "library.js",
@@ -11,7 +11,8 @@
     "nodebb",
     "plugin",
     "limf",
-    "shell"
+    "shell",
+    "saiberio"
   ],
   "husky": {
     "hooks": {

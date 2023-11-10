@@ -21,12 +21,12 @@
   "staticDirs": {
     "static": "./static"
   },
-  "scss": ["static/scss/quickstart.scss"],
+  "scss": ["static/scss/limf.scss"],
   "scripts": ["static/lib/main.js"],
   "acpScripts": ["static/lib/acp-main.js"],
   "modules": {
-    "../client/quickstart.js": "./static/lib/quickstart.js",
-    "../admin/plugins/quickstart.js": "./static/lib/admin.js"
+    "../client/limf.js": "./static/lib/limf.js",
+    "../admin/plugins/limf.js": "./static/lib/admin.js"
   },
   "templates": "static/templates"
 }
