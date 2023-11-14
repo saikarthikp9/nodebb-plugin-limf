@@ -242,6 +242,13 @@ plugin.customFields = function (params, callback) {
   callback(null, { users: users });
 };
 
+plugin.addFieldRegComplete = function (params, callback) {
+  console.log("addFieldRegComplete");
+  console.log(params);
+  console.log(params.templateData);
+  callback(null, params);
+};
+
 plugin.addField = function (params, callback) {
   for (var key in customFields) {
     if (key == "") {

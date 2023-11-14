@@ -8,6 +8,11 @@
     { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
     { "hook": "filter:user.whitelistFields", "method": "whitelistFields" },
     { "hook": "filter:register.build", "method": "addField" },
+    {
+      "hook": "filter:registerComplete.build",
+      "method": "addFieldRegComplete"
+    },
+
     { "hook": "filter:register.check", "method": "checkField" },
     {
       "hook": "filter:admin.registrationQueue.customHeaders",
