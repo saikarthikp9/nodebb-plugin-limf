@@ -10,6 +10,14 @@ const controllers = require("./lib/controllers");
 const routeHelpers = require.main.require("./src/routes/helpers");
 
 const customFields = {
+  test: {
+    label: "Test Field",
+    placeholder: "Test Field",
+    help_text: "This is a test field.",
+    type: "text",
+    validation_type: "name",
+    required: false,
+  },
   fullname: {
     label: "Full Name",
     placeholder: "John Smith",
@@ -244,8 +252,10 @@ plugin.customFields = function (params, callback) {
 
 plugin.addFieldRegComplete = function (params, callback) {
   console.log("addFieldRegComplete");
-  console.log(params);
-  console.log(params.templateData);
+  console.log(params.templateData.sections[0]);
+  var html = `<div><div class="mb-3"><label class="form-label" for="test">Test</label><input class="form-control" type="text" id="test" name="test" placeholder="{test}" value="{test}" /><p class="form-text">test</p></div></div>`;
+  params.templateData.sections.push(html);
+  console.log("end of addFieldRegComplete");
   callback(null, params);
 };
 
