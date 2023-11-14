@@ -250,6 +250,15 @@ plugin.customFields = function (params, callback) {
   callback(null, { users: users });
 };
 
+plugin.registerInterstitial = function (params) {
+  console.log("registerInterstitial");
+  console.log("params.req.body:");
+  console.log(params.req.body);
+  console.log("params.userData:");
+  console.log(params.userData);
+  return params;
+};
+
 plugin.addFieldRegComplete = function (params, callback) {
   console.log("addFieldRegComplete");
   console.log(params.templateData.sections[0]);
