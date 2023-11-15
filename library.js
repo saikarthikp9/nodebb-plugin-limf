@@ -24,7 +24,7 @@ const customFields = {
     help_text: "",
     type: "text",
     validation_type: "name",
-    required: true,
+    required: false,
     autocomplete: "name",
   },
   // email: {
