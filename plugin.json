@@ -24,7 +24,8 @@
     {
       "hook": "filter:user.addToApprovalQueue",
       "method": "addToApprovalQueue"
-    }
+    },
+    { "hook": "filter:register.interstitial", "method": "registerInterstitial" }
   ],
   "staticDirs": {
     "static": "./static"
