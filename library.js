@@ -27,92 +27,92 @@ const customFields = {
     required: true,
     autocomplete: "name",
   },
-  email: {
-    label: "Email Address",
-    placeholder: "john.smith@gmail.com",
-    help_text:
-      "This forum uses your email address for account recovery in the event of a lost password, as well as for scheduled digest and notifications.",
-    type: "text",
-    validation_type: "email",
-    required: true,
-    autocomplete: "email",
-  },
-  phone: {
-    label: "Phone Number",
-    placeholder: "+919848249183",
-    help_text:
-      "Include the country code, +1 for US/Canada, +91 for India, etc.",
-    type: "text",
-    validation_type: "phone",
-    required: true,
-    autocomplete: "tel",
-  },
-  current_address: {
-    label: "City of Current Residence",
-    placeholder: "Bangalore",
-    help_text:
-      "Where do you live now? We will not share this information and only use it to connect with you, if needed.",
-    type: "text",
-    validation_type: "address",
-    required: true,
-    autocomplete: "address-level2",
-  },
-  home_town: {
-    label: "Home Town",
-    placeholder: "Puttaparthi",
-    help_text:
-      "Where are you from originally? This just tells us more about your roots.",
-    type: "text",
-    validation_type: "address",
-    required: true,
-  },
-  relationship: {
-    label: "Connection to Sai Baba",
-    placeholder: "",
-    help_text:
-      "Select all that apply. We understand your background with this info. Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
-    type: "multiselect",
-    select_options: [
-      {
-        value: "Office Bearer Sai Organization",
-        label: "Office Bearer Sai Organization",
-      },
-      {
-        value: "Employee of Sai Institutions",
-        label: "Employee of Sai Institutions",
-      },
-      {
-        value: "Student of Sai Baba Colleges",
-        label: "Student of Sai Baba Colleges",
-      },
-      {
-        value: "Author of Sai Baba Literature",
-        label: "Author of Sai Baba Literature",
-      },
-      { value: "Child of Sai Devotees", label: "Child of Sai Devotees" },
-      { value: "Sai Devotee", label: "Sai Devotee" },
-    ],
-    required: false,
-  },
-  skills: {
-    label: "Specialist In",
-    placeholder: "",
-    help_text:
-      "Select all that apply. We may use your help based on your skills. Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
-    type: "multiselect",
-    select_options: [
-      { value: "Editing", label: "Editing" },
-      { value: "Writing", label: "Writing" },
-      { value: "Design/Graphics", label: "Design/Graphics" },
-      { value: "Research", label: "Research" },
-      {
-        value: "Automation of Research Process",
-        label: "Automation of Research Process",
-      },
-      { value: "Social Media Expert", label: "Social Media Expert" },
-    ],
-    required: false,
-  },
+  // email: {
+  //   label: "Email Address",
+  //   placeholder: "john.smith@gmail.com",
+  //   help_text:
+  //     "This forum uses your email address for account recovery in the event of a lost password, as well as for scheduled digest and notifications.",
+  //   type: "text",
+  //   validation_type: "email",
+  //   required: true,
+  //   autocomplete: "email",
+  // },
+  // phone: {
+  //   label: "Phone Number",
+  //   placeholder: "+919848249183",
+  //   help_text:
+  //     "Include the country code, +1 for US/Canada, +91 for India, etc.",
+  //   type: "text",
+  //   validation_type: "phone",
+  //   required: true,
+  //   autocomplete: "tel",
+  // },
+  // current_address: {
+  //   label: "City of Current Residence",
+  //   placeholder: "Bangalore",
+  //   help_text:
+  //     "Where do you live now? We will not share this information and only use it to connect with you, if needed.",
+  //   type: "text",
+  //   validation_type: "address",
+  //   required: true,
+  //   autocomplete: "address-level2",
+  // },
+  // home_town: {
+  //   label: "Home Town",
+  //   placeholder: "Puttaparthi",
+  //   help_text:
+  //     "Where are you from originally? This just tells us more about your roots.",
+  //   type: "text",
+  //   validation_type: "address",
+  //   required: true,
+  // },
+  // relationship: {
+  //   label: "Connection to Sai Baba",
+  //   placeholder: "",
+  //   help_text:
+  //     "Select all that apply. We understand your background with this info. Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
+  //   type: "multiselect",
+  //   select_options: [
+  //     {
+  //       value: "Office Bearer Sai Organization",
+  //       label: "Office Bearer Sai Organization",
+  //     },
+  //     {
+  //       value: "Employee of Sai Institutions",
+  //       label: "Employee of Sai Institutions",
+  //     },
+  //     {
+  //       value: "Student of Sai Baba Colleges",
+  //       label: "Student of Sai Baba Colleges",
+  //     },
+  //     {
+  //       value: "Author of Sai Baba Literature",
+  //       label: "Author of Sai Baba Literature",
+  //     },
+  //     { value: "Child of Sai Devotees", label: "Child of Sai Devotees" },
+  //     { value: "Sai Devotee", label: "Sai Devotee" },
+  //   ],
+  //   required: false,
+  // },
+  // skills: {
+  //   label: "Specialist In",
+  //   placeholder: "",
+  //   help_text:
+  //     "Select all that apply. We may use your help based on your skills. Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
+  //   type: "multiselect",
+  //   select_options: [
+  //     { value: "Editing", label: "Editing" },
+  //     { value: "Writing", label: "Writing" },
+  //     { value: "Design/Graphics", label: "Design/Graphics" },
+  //     { value: "Research", label: "Research" },
+  //     {
+  //       value: "Automation of Research Process",
+  //       label: "Automation of Research Process",
+  //     },
+  //     { value: "Social Media Expert", label: "Social Media Expert" },
+  //   ],
+  //   required: false,
+  // },
 };
 
 const user = require.main.require("./src/user");
@@ -256,15 +256,30 @@ plugin.registerInterstitial = function (params) {
   console.log(params.req.body);
   console.log("params.userData:");
   console.log(params.userData);
+  const url = params.req.originalUrl;
+  console.log("url", url);
+
+  var customInterstital = {
+    template: "partials/customRegistration",
+    data: {
+      test: "test from customInterstital",
+    },
+    callback: async (userData, formData) => {
+      console.log("customInterstital callback");
+      console.log(userData);
+      console.log(formData);
+    },
+  };
+  params.params.interstitials.push(customInterstital);
   return params;
 };
 
 plugin.addFieldRegComplete = function (params, callback) {
-  console.log("addFieldRegComplete");
-  console.log(params.templateData.sections[0]);
-  var html = `<div><div class="mb-3"><label class="form-label" for="test">Test</label><input class="form-control" type="text" id="test" name="test" placeholder="{test}" value="{test}" /><p class="form-text">test</p></div></div>`;
-  params.templateData.sections.push(html);
-  console.log("end of addFieldRegComplete");
+  // console.log("addFieldRegComplete");
+  // console.log(params.templateData.sections[0]);
+  // var html = `<div><div class="mb-3"><label class="form-label" for="test">Test</label><input class="form-control" type="text" id="test" name="test" placeholder="{test}" value="{test}" /><p class="form-text">test</p></div></div>`;
+  // params.templateData.sections.push(html);
+  // console.log("end of addFieldRegComplete");
   callback(null, params);
 };
 
