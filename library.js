@@ -270,7 +270,7 @@ plugin.registerInterstitial = function (params) {
       console.log(formData);
     },
   };
-  params.params.interstitials.push(customInterstital);
+  params.interstitials.push(customInterstital);
   return params;
 };
 
