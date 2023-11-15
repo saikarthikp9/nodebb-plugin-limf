@@ -264,11 +264,13 @@ plugin.registerInterstitial = function (params) {
     data: {
       test: "test from customInterstital",
     },
-    callback: async (userData, formData) => {
+    callback: async (userData, formData, next) => {
+      const error = false;
       console.log("customInterstital callback");
       console.log(userData);
       console.log(formData);
       userData.test = formData.test;
+      next(error ? null : new Error("There was an error"));
     },
   };
   params.interstitials.unshift(customInterstital);
