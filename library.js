@@ -268,9 +268,10 @@ plugin.registerInterstitial = function (params) {
       console.log("customInterstital callback");
       console.log(userData);
       console.log(formData);
+      userData.test = formData.test;
     },
   };
-  params.interstitials.push(customInterstital);
+  params.interstitials.unshift(customInterstital);
   return params;
 };
 
