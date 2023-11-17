@@ -250,31 +250,64 @@ plugin.customFields = function (params, callback) {
   callback(null, { users: users });
 };
 
-plugin.registerInterstitial = function (params) {
-  console.log("registerInterstitial");
-  console.log("params.req.body:");
-  console.log(params.req.body);
-  console.log("params.userData:");
-  console.log(params.userData);
-  const url = params.req.originalUrl;
-  console.log("url", url);
+plugin.registerInterstitial = async function (data) {
+  console.log("############# registerInterstitial");
+  console.log("############# data.req.body:");
+  console.log(data.req.body);
+  console.log("############# data.userData:");
+  console.log(data.userData);
+  const url = data.req.originalUrl;
+  console.log("############# url", url);
+
+  // if the user already has this data saved, return early. userData contains the contents of req.session.
+  if (data.userData && data.userData.test) {
+    return data;
+  }
+
+  // if there is no user data (null case check)
+  if (!data.userData) {
+    throw new Error("Invalid Data");
+  }
+
+  // if data.userData.uid is present it means this is an EXISTING user, not a new user. Check their hash to see whether they submitted the data.
+  if (data.userData.uid) {
+    const customData = await db.getObjectField(
+      `user:${data.userData.uid}`,
+      "test"
+    );
+    if (customData) {
+      return data;
+    }
+  }
 
   var customInterstital = {
     template: "partials/customRegistration",
     data: {
       test: "test from customInterstital",
     },
+    // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
     callback: async (userData, formData, next) => {
       const error = false;
-      console.log("customInterstital callback");
+      console.log("############## customInterstital callback");
+      console.log("############## userData");
       console.log(userData);
+      console.log("############## formData");
       console.log(formData);
-      userData.test = formData.test;
-      next(error ? null : new Error("There was an error"));
+
+      if (formData.test) {
+        userData.test = formData.test;
+      }
+
+      // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
+      next(
+        userData.test
+          ? null
+          : new Error("You must answer all the required fields.")
+      );
     },
   };
-  params.interstitials.unshift(customInterstital);
-  return params;
+  data.interstitials.unshift(customInterstital);
+  return data;
 };
 
 plugin.addFieldRegComplete = function (params, callback) {
