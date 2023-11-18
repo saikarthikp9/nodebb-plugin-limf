@@ -250,18 +250,20 @@ plugin.customFields = function (params, callback) {
   callback(null, { users: users });
 };
 
-plugin.registerInterstitial = async function (data) {
+plugin.registerInterstitial = async function (data, callback) {
   const url = data.req.originalUrl;
   console.log("############# url", url);
 
   // if the user already has this data saved, return early. userData contains the contents of req.session.
   if (data.userData && data.userData.test) {
-    return data;
+    console.log("early return 1");
+    callback(null, data);
   }
 
   // if there is no user data (null case check)
   if (!data.userData) {
-    throw new Error("Invalid Data");
+    console.log("early return 2 error");
+    callback(new Error("Invalid Data"));
   }
 
   // if data.userData.uid is present it means this is an EXISTING user, not a new user. Check their hash to see whether they submitted the data.
@@ -271,7 +273,8 @@ plugin.registerInterstitial = async function (data) {
       "test"
     );
     if (customData) {
-      return data;
+      console.log("early return 3");
+      callback(null, data);
     }
   }
 
@@ -282,6 +285,7 @@ plugin.registerInterstitial = async function (data) {
     },
     // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
     callback: async (userData, formData, next) => {
+      console.log("customInterstital callback");
       if (formData.test) {
         userData.test = formData.test;
       }
@@ -295,7 +299,8 @@ plugin.registerInterstitial = async function (data) {
     },
   };
   data.interstitials.unshift(customInterstital);
-  return data;
+  console.log("last return");
+  callback(null, data);
 };
 
 plugin.addField = function (params, callback) {
