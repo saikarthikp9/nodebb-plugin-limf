@@ -7,7 +7,6 @@
     { "hook": "static:api.routes", "method": "addRoutes" },
     { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
     { "hook": "filter:user.whitelistFields", "method": "whitelistFields" },
-    { "hook": "filter:register.check", "method": "checkField" },
     {
       "hook": "filter:admin.registrationQueue.customHeaders",
       "method": "customHeaders"
