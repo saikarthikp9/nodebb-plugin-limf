@@ -388,7 +388,7 @@ plugin.registerInterstitial = async function (data) {
   // }
 
   // add interstitial to data
-  for (interstitial of customInterstitals) {
+  for (var interstitial of customInterstitals) {
     data.interstitials.unshift(interstitial);
   }
   console.log("############# last return");
@@ -410,7 +410,7 @@ plugin.createdUser = async function (params) {
     console.log("plugin.createdUser.params");
     var addCustomData = {};
 
-    let index = 0;
+    var index = 0;
     var keylist = [];
     for (var interstitialIndex in customFields) {
       for (var key in customFields[interstitialIndex]) {
