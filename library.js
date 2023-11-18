@@ -387,12 +387,16 @@ plugin.registerInterstitial = async function (data) {
           console.log(userData[key]);
         }
         console.log("############# userData set and then next(null)");
-        next(null);
+        console.log("formData", formData);
+        console.log("userData", userData);
       } else {
         console.log("############# error and then next(error)");
         console.log(error);
-        next(new Error(error));
       }
+
+      next(
+        error ? new Error("You must answer all the required fields.") : null
+      );
     },
   };
   data.interstitials.unshift(customInterstital);
