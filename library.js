@@ -10,14 +10,6 @@ const controllers = require("./lib/controllers");
 const routeHelpers = require.main.require("./src/routes/helpers");
 
 const customFields = {
-  // test: {
-  //   label: "Test Field",
-  //   placeholder: "Test Field",
-  //   help_text: "This is a test field.",
-  //   type: "text",
-  //   validation_type: "name",
-  //   required: false,
-  // },
   fullname: {
     label: "Full Name",
     placeholder: "John Smith",
@@ -27,116 +19,113 @@ const customFields = {
     required: true,
     autocomplete: "name",
   },
-  // email: {
-  //   label: "Email Address",
-  //   placeholder: "john.smith@gmail.com",
-  //   help_text:
-  //     "This forum uses your email address for account recovery in the event of a lost password, as well as for scheduled digest and notifications.",
-  //   type: "text",
-  //   validation_type: "email",
-  //   required: true,
-  //   autocomplete: "email",
-  // },
   phone: {
     label: "Phone Number",
     placeholder: "+919848249183",
     help_text:
-      "Include the country code, +1 for US/Canada, +91 for India, etc.",
+      "Include the country code, such as +1 for the US/Canada or +91 for India, to ensure accurate contact information.",
     type: "text",
     validation_type: "phone",
     required: true,
     autocomplete: "tel",
   },
-  // current_address: {
-  //   label: "City of Current Residence",
-  //   placeholder: "Bangalore",
-  //   help_text:
-  //     "Where do you live now? We will not share this information and only use it to connect with you, if needed.",
-  //   type: "text",
-  //   validation_type: "address",
-  //   required: true,
-  //   autocomplete: "address-level2",
-  // },
-  // home_town: {
-  //   label: "Home Town",
-  //   placeholder: "Puttaparthi",
-  //   help_text:
-  //     "Where are you from originally? This just tells us more about your roots.",
-  //   type: "text",
-  //   validation_type: "address",
-  //   required: true,
-  // },
-  // relationship: {
-  //   label: "Connection to Sai Baba",
-  //   placeholder: "",
-  //   help_text:
-  //     "Select all that apply. We understand your background with this info. Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
-  //   type: "multiselect",
-  //   select_options: [
-  //     {
-  //       value: "Office Bearer Sai Organization",
-  //       label: "Office Bearer Sai Organization",
-  //     },
-  //     {
-  //       value: "Employee of Sai Institutions",
-  //       label: "Employee of Sai Institutions",
-  //     },
-  //     {
-  //       value: "Student of Sai Baba Colleges",
-  //       label: "Student of Sai Baba Colleges",
-  //     },
-  //     {
-  //       value: "Author of Sai Baba Literature",
-  //       label: "Author of Sai Baba Literature",
-  //     },
-  //     { value: "Child of Sai Devotees", label: "Child of Sai Devotees" },
-  //     { value: "Sai Devotee", label: "Sai Devotee" },
-  //   ],
-  //   required: false,
-  // },
-  // skills: {
-  //   label: "Specialist In",
-  //   placeholder: "",
-  //   help_text:
-  //     "Select all that apply. We may use your help based on your skills. Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
-  //   type: "multiselect",
-  //   select_options: [
-  //     { value: "Editing", label: "Editing" },
-  //     { value: "Writing", label: "Writing" },
-  //     { value: "Design/Graphics", label: "Design/Graphics" },
-  //     { value: "Research", label: "Research" },
-  //     {
-  //       value: "Automation of Research Process",
-  //       label: "Automation of Research Process",
-  //     },
-  //     { value: "Social Media Expert", label: "Social Media Expert" },
-  //   ],
-  //   required: false,
-  // },
+  current_address: {
+    label: "City of Current Residence",
+    placeholder: "Bangalore",
+    help_text:
+      "Please provide your current location. We will keep this information confidential and only use it for necessary communication or interviews with your permission.",
+    type: "text",
+    validation_type: "address",
+    required: true,
+    autocomplete: "address-level2",
+  },
+  home_town: {
+    label: "Home Town",
+    placeholder: "Puttaparthi",
+    help_text:
+      "Tell us about your place of origin. This helps us learn more about your background and heritage.",
+    type: "text",
+    validation_type: "address",
+    required: true,
+  },
+  relationship: {
+    label: "Connection to Sai Baba",
+    placeholder: "",
+    help_text:
+      "Select all that apply. This information helps us understand your background better. Use Ctrl on Windows or Command on Macs to select multiple options.",
+    type: "select",
+    select_options: [
+      {
+        value: "Office Bearer Sai Organization",
+        label: "Office Bearer Sai Organization",
+      },
+      {
+        value: "Employee of Sai Institutions",
+        label: "Employee of Sai Institutions",
+      },
+      {
+        value: "Student of Sai Baba Colleges",
+        label: "Student of Sai Baba Colleges",
+      },
+      {
+        value: "Author of Sai Baba Literature",
+        label: "Author of Sai Baba Literature",
+      },
+      { value: "Child of Sai Devotees", label: "Child of Sai Devotees" },
+      { value: "Sai Devotee", label: "Sai Devotee" },
+    ],
+    required: false,
+    multiple: true,
+  },
+  skills: {
+    label: "Specialist In",
+    placeholder: "",
+    help_text:
+      "Select all that apply. We may reach out to you based on your expertise. Use Ctrl on Windows or Command on Macs to select multiple options.",
+    type: "select",
+    select_options: [
+      { value: "Editing", label: "Editing" },
+      { value: "Writing", label: "Writing" },
+      { value: "Design/Graphics", label: "Design/Graphics" },
+      { value: "Research", label: "Research" },
+      {
+        value: "Automation of Research Process",
+        label: "Automation of Research Process",
+      },
+      { value: "Social Media Expert", label: "Social Media Expert" },
+    ],
+    required: false,
+    multiple: true,
+  },
 };
-
-// <label class="form-label" for="test">Test Template Field</label>
-// 	<input class="form-control" type="text" id="test" name="test" placeholder="{test}" value="{test}" />
-// 	<p class="form-text">This is a test field from template file.</p>
-
-// label: "Full Name",
-// placeholder: "John Smith",
-// help_text: "",
-// type: "text",
-// validation_type: "name",
-// required: false,
-// autocomplete: "name",
 
 var fields = "";
 
 console.log("#################### SETTINGS FIELDS ####################");
 for (var key in customFields) {
-  if (customFields[key].type == "text") {
+  const label = customFields[key].label;
+  const placeholder = customFields[key].placeholder;
+  const help_text = customFields[key].help_text;
+  const type = customFields[key].type;
+  const required = customFields[key].required;
+  const autocomplete = customFields[key].autocomplete;
+
+  if (type == "text") {
     fields += `
-  <label class="form-label" for="${key}">${customFields[key].label}</label>
-	<input class="form-control" type="${customFields[key].type}" id="${key}" name="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}" required="${customFields[key].required} />
-	<p class="form-text">${customFields[key].help_text}</p>
-  `;
+      <label class="form-label" for="${key}">${label}</label>
+      <input class="form-control" type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" autocomplete="${autocomplete}" required="${required} />
+      <p class="form-text">${help_text}</p>
+    `;
+  } else if (type == "select") {
+    const select_options = customFields[key].select_options;
+    const multiple = customFields[key].multiple;
+    var html = `<label class="form-label" for="${key}">${label}</label>
+    <select class="form-control" type="text" name="${key}" id="${key}" multiple=${multiple}>`;
+    for (var option of select_options) {
+      html += `<option value="${option.value}">${option.label}</option>`;
+    }
+    html += `<p class="form-text">${help_text}</p>`;
+    fields += html;
   }
 }
 
@@ -146,33 +135,24 @@ function validation(formData) {
   var error = "";
   for (var key in customFields) {
     var value = formData[key];
-    if (customFields[key].validation_type == "phone") {
-      if (value.length < 10 || !/^\+\d{8,}$/.test(value)) {
-        error +=
-          "Invalid phone number. It must start with a '+' and be 10 digits or more./n";
+    if (customFields[key].validation_type == "name") {
+      if (!/^([a-zA-Z ]){2,30}$/.test(value)) {
+        error += "Invalid name. ";
+      }
+    } else if (customFields[key].validation_type == "phone") {
+      if (!/^\+([0-9]{1,3})([0-9]{6,14})$/.test(value)) {
+        error += "Invalid phone number (Must start with a '+'). ";
       }
     } else if (customFields[key].validation_type == "address") {
-      if (value.length < 3) {
-        error = { message: "Enter a valid address." };
-      } else if (/[!@$%^&*(),?":{}|<>]/.test(value)) {
-        error += "Invalid address. It must not contain special characters./n/n";
-      }
-    } else if (customFields[key].validation_type == "email") {
-      if (!/^(?![A-Z])[\w\.\-\+]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/.test(value)) {
-        error += "Invalid email address./n";
+      if (!/^[a-zA-Z]+(?:[\s-'][a-zA-Z]+){1,48}$/.test(value)) {
+        error += "Invalid address. ";
       }
     }
-    // TODO: maybe wont check required since it can be handled at client-side input level
-    // else if (customFields[key].required) {
-    //   if (value == "" || value == undefined) {
-    //     error += "Please complete all required fields before submitting.";
-    //   }
-    // }
   }
   if (error == "") {
     return null;
   }
-  return error;
+  return `Errors: ${error}`;
 }
 
 // if (customFields[key].type == "text") {
