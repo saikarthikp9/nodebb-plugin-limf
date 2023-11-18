@@ -159,26 +159,6 @@ function validation(formData) {
   return `Errors: ${error}`;
 }
 
-// if (customFields[key].type == "text") {
-//   var html = `<input class="form-control" type="text" name="${key}" id="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}"><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-// } else if (customFields[key].type == "textarea") {
-//   var html = `<textarea class="form-control" type="text" name="${key}" id="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}"></textarea><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-// } else if (customFields[key].type == "select") {
-//   var html = `<select class="form-control" type="text" name="${key}" id="${key}">`;
-//   for (var option of customFields[key].select_options) {
-//     html += `<option value="${option.value}">${option.label}</option>`;
-//   }
-//   html += `</select><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-// } else if (customFields[key].type == "checkbox") {
-//   var html = `<input class="form-control" type="checkbox" name="${key}" id="${key}"><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-// } else if (customFields[key].type == "multiselect") {
-//   var html = `<select class="form-control" type="text" name="${key}" id="${key}" multiple>`;
-//   for (var option of customFields[key].select_options) {
-//     html += `<option value="${option.value}">${option.label}</option>`;
-//   }
-//   html += `</select><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-// }
-
 const user = require.main.require("./src/user");
 const db = require.main.require("./src/database");
 
@@ -368,17 +348,10 @@ plugin.registerInterstitial = async function (data) {
       if (error == null) {
         // set all values from customFields from formData to userData
         for (var key in customFields) {
-          console.log(
-            `############# setting ${key} from formData ${formData[key]}`
-          );
-
           userData[key] = formData[key];
-          console.log(userData[key]);
         }
         userData["custom_data_collected"] = true;
         console.log("############# userData set and then next(null)");
-        console.log("formData", formData);
-        console.log("userData", userData);
         next(null);
       } else {
         console.log("############# error and then next(error)");
@@ -390,86 +363,6 @@ plugin.registerInterstitial = async function (data) {
   data.interstitials.unshift(customInterstital);
   console.log("############# last return");
   return data;
-};
-
-plugin.addField = function (params, callback) {
-  for (var key in customFields) {
-    if (key == "") {
-      callback(null, params);
-      return;
-    }
-
-    var label = customFields[key].label;
-    if (customFields[key].type == "text") {
-      var html = `<input class="form-control" type="text" name="${key}" id="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}"><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-    } else if (customFields[key].type == "textarea") {
-      var html = `<textarea class="form-control" type="text" name="${key}" id="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}"></textarea><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-    } else if (customFields[key].type == "select") {
-      var html = `<select class="form-control" type="text" name="${key}" id="${key}">`;
-      for (var option of customFields[key].select_options) {
-        html += `<option value="${option.value}">${option.label}</option>`;
-      }
-      html += `</select><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-    } else if (customFields[key].type == "checkbox") {
-      var html = `<input class="form-control" type="checkbox" name="${key}" id="${key}"><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-    } else if (customFields[key].type == "multiselect") {
-      var html = `<select class="form-control" type="text" name="${key}" id="${key}" multiple>`;
-      for (var option of customFields[key].select_options) {
-        html += `<option value="${option.value}">${option.label}</option>`;
-      }
-      html += `</select><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
-    }
-
-    var captcha = {
-      label: label,
-      html: html,
-    };
-
-    if (
-      params.templateData.regFormEntry &&
-      Array.isArray(params.templateData.regFormEntry)
-    ) {
-      params.templateData.regFormEntry.push(captcha);
-    } else {
-      params.templateData.captcha = captcha;
-    }
-  }
-  callback(null, params);
-};
-
-plugin.checkField = function (params, callback) {
-  var userData = params.userData;
-  var error = null;
-  for (var key in customFields) {
-    var value = userData[key];
-    if (customFields[key].validation_type == "phone") {
-      if (value.length < 10 || !/^\+\d{8,}$/.test(value)) {
-        error = {
-          message:
-            "Invalid phone number. It must start with a '+' and be 10 digits or more.",
-        };
-      }
-    } else if (customFields[key].validation_type == "address") {
-      if (value.length < 3) {
-        error = { message: "Enter a valid address." };
-      } else if (/[!@$%^&*(),?":{}|<>]/.test(value)) {
-        error = {
-          message: "Invalid address. It must not contain special characters.",
-        };
-      }
-    } else if (customFields[key].validation_type == "email") {
-      if (!/^(?![A-Z])[\w\.\-\+]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/.test(value)) {
-        error = { message: "Invalid email address." };
-      }
-    } else if (customFields[key].required) {
-      if (value == "" || value == undefined) {
-        error = {
-          message: "Please complete all required fields before submitting.",
-        };
-      }
-    }
-  }
-  callback(error, params);
 };
 
 plugin.creatingUser = function (params, callback) {
@@ -490,11 +383,6 @@ plugin.createdUser = async function (params) {
     var keylist = [];
     for (let key in customFields) {
       keylist.push(key);
-      console.log(key);
-      console.log(index);
-      console.log(params.data.customRows[index]);
-      console.log(params.data.customRows[index].value);
-      console.log(typeof params.data.customRows[index].value);
 
       if (typeof params.data.customRows[index].value == "string") {
         addCustomData[key] = params.data.customRows[index].value;
@@ -523,8 +411,7 @@ plugin.createdUser = async function (params) {
 
 plugin.addToApprovalQueue = function (params, callback) {
   console.log("addToApprovalQueue");
-  console.log(params.data);
-  console.log(params.userData);
+
   var data = params.data;
   var userData = params.userData;
 
@@ -532,12 +419,9 @@ plugin.addToApprovalQueue = function (params, callback) {
 
   for (var key in customFields) {
     var fieldData = params.userData[key];
-    console.log(fieldData);
-    console.log(typeof fieldData);
     data.customRows.push({ value: fieldData });
   }
 
-  console.log(data.customRows);
   callback(null, { data: data, userData: userData });
 };
 
