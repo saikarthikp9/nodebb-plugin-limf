@@ -10,14 +10,14 @@ const controllers = require("./lib/controllers");
 const routeHelpers = require.main.require("./src/routes/helpers");
 
 const customFields = {
-  test: {
-    label: "Test Field",
-    placeholder: "Test Field",
-    help_text: "This is a test field.",
-    type: "text",
-    validation_type: "name",
-    required: false,
-  },
+  // test: {
+  //   label: "Test Field",
+  //   placeholder: "Test Field",
+  //   help_text: "This is a test field.",
+  //   type: "text",
+  //   validation_type: "name",
+  //   required: false,
+  // },
   fullname: {
     label: "Full Name",
     placeholder: "John Smith",
@@ -114,6 +114,51 @@ const customFields = {
   //   required: false,
   // },
 };
+
+// <label class="form-label" for="test">Test Template Field</label>
+// 	<input class="form-control" type="text" id="test" name="test" placeholder="{test}" value="{test}" />
+// 	<p class="form-text">This is a test field from template file.</p>
+
+// label: "Full Name",
+// placeholder: "John Smith",
+// help_text: "",
+// type: "text",
+// validation_type: "name",
+// required: false,
+// autocomplete: "name",
+
+const fields = "";
+
+console.log("#################### SETTINGS FIELDS ####################");
+for (var key in customFields) {
+  if (customFields[key].type == "text") {
+    fields += `
+  <label class="form-label" for="${key}">${fields[key].label}</label>
+	<input class="form-control" type="${customFields[key].type}" id="${key}" name="${key}" placeholder="${customFields[key].placeholder}" value="{test}" autocomplete="${customFields[key].autocomplete}" required="${customFields[key].required} />
+	<p class="form-text">${customFields[key].help_text}</p>
+  `;
+  }
+}
+
+// if (customFields[key].type == "text") {
+//   var html = `<input class="form-control" type="text" name="${key}" id="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}"><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
+// } else if (customFields[key].type == "textarea") {
+//   var html = `<textarea class="form-control" type="text" name="${key}" id="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}"></textarea><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
+// } else if (customFields[key].type == "select") {
+//   var html = `<select class="form-control" type="text" name="${key}" id="${key}">`;
+//   for (var option of customFields[key].select_options) {
+//     html += `<option value="${option.value}">${option.label}</option>`;
+//   }
+//   html += `</select><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
+// } else if (customFields[key].type == "checkbox") {
+//   var html = `<input class="form-control" type="checkbox" name="${key}" id="${key}"><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
+// } else if (customFields[key].type == "multiselect") {
+//   var html = `<select class="form-control" type="text" name="${key}" id="${key}" multiple>`;
+//   for (var option of customFields[key].select_options) {
+//     html += `<option value="${option.value}">${option.label}</option>`;
+//   }
+//   html += `</select><span class="custom-feedback" id="${key}-notify"></span><span class="help-block text-xs">${customFields[key].help_text}</span>`;
+// }
 
 const user = require.main.require("./src/user");
 const db = require.main.require("./src/database");
@@ -219,6 +264,7 @@ plugin.whitelistFields = async ({ uids, whitelist }) => {
   for (var key in customFields) {
     whitelist.push(key);
   }
+  whitelist.push("custom_data_collected");
 
   return { uids, whitelist };
 };
@@ -281,7 +327,7 @@ plugin.registerInterstitial = async function (data) {
   var customInterstital = {
     template: "partials/customRegistration",
     data: {
-      test: "test from customInterstital",
+      fields: fields,
     },
     // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
     callback: (userData, formData, next) => {
@@ -291,6 +337,7 @@ plugin.registerInterstitial = async function (data) {
       if (formData.test) {
         userData.test = formData.test;
       }
+      userData.custom_data_collected = true;
 
       // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
       next(
