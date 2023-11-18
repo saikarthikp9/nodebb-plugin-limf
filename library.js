@@ -371,19 +371,22 @@ plugin.registerInterstitial = async function (data) {
     // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
     callback: (userData, formData, next) => {
       console.log("############# callback");
-      console.log("formData.test", formData.test);
-      console.log("userData.test", userData.test);
 
       // TODO: VALIDATION
       // var error = validation(formData);
       var error = null;
       // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
-      if (!error) {
+      if (error == null) {
         // set all values from customFields from formData to userData
         for (var key in customFields) {
+          console.log(
+            `############# setting ${key} from formData ${formData[key]}`
+          );
+
           userData[key] = formData[key];
+          console.log(userData[key]);
         }
-        console.log("############# setting userData and then next(null)");
+        console.log("############# userData set and then next(null)");
         next(null);
       } else {
         console.log("############# error and then next(error)");
