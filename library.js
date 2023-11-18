@@ -133,7 +133,7 @@ console.log("#################### SETTINGS FIELDS ####################");
 for (var key in customFields) {
   if (customFields[key].type == "text") {
     fields += `
-  <label class="form-label" for="${key}">${fields[key].label}</label>
+  <label class="form-label" for="${key}">${customFields[key].label}</label>
 	<input class="form-control" type="${customFields[key].type}" id="${key}" name="${key}" placeholder="${customFields[key].placeholder}" value="{test}" autocomplete="${customFields[key].autocomplete}" required="${customFields[key].required} />
 	<p class="form-text">${customFields[key].help_text}</p>
   `;
