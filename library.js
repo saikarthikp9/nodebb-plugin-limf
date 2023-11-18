@@ -148,8 +148,8 @@ function validation(formData) {
         error += "Invalid phone number (Must start with a '+'). ";
       }
     } else if (customFields[key].validation_type == "address") {
-      if (!/^[a-zA-Z]+(?:[\s-'][a-zA-Z]+){1,48}$/.test(value)) {
-        error += `Invalid ${customFields[key].label}. `;
+      if (!/^[a-zA-Z]{4,49}(?:[\s-'][a-zA-Z]+)*$/.test(value)) {
+        error += `Invalid ${customFields[key].label} (Include City, State). `;
       }
     }
   }
