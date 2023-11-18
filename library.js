@@ -113,14 +113,18 @@ for (var key in customFields) {
   if (type == "text") {
     fields += `
       <label class="form-label" for="${key}">${label}</label>
-      <input class="form-control" type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" autocomplete="${autocomplete}" required="${required} />
+      <input class="form-control" type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" autocomplete="${autocomplete}" ${
+      required ? "required" : ""
+    } />
       <p class="form-text">${help_text}</p>
     `;
   } else if (type == "select") {
     const select_options = customFields[key].select_options;
     const multiple = customFields[key].multiple;
     var html = `<label class="form-label" for="${key}">${label}</label>
-    <select class="form-control" type="text" name="${key}" id="${key}" multiple=${multiple}>`;
+    <select class="form-control" type="text" name="${key}" id="${key}" ${
+      multiple ? "multiple" : ""
+    }>`;
     for (var option of select_options) {
       html += `<option value="${option.value}">${option.label}</option>`;
     }
@@ -137,7 +141,7 @@ function validation(formData) {
     var value = formData[key];
     if (customFields[key].validation_type == "name") {
       if (!/^([a-zA-Z ]){2,30}$/.test(value)) {
-        error += "Invalid name. ";
+        error += `Invalid ${customFields[key].label}. `;
       }
     } else if (customFields[key].validation_type == "phone") {
       if (!/^\+([0-9]{1,3})([0-9]{6,14})$/.test(value)) {
@@ -145,7 +149,7 @@ function validation(formData) {
       }
     } else if (customFields[key].validation_type == "address") {
       if (!/^[a-zA-Z]+(?:[\s-'][a-zA-Z]+){1,48}$/.test(value)) {
-        error += "Invalid address. ";
+        error += `Invalid ${customFields[key].label}. `;
       }
     }
   }
