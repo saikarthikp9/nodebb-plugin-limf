@@ -376,7 +376,6 @@ plugin.creatingUser = function (params, callback) {
 plugin.createdUser = async function (params) {
   try {
     console.log("plugin.createdUser.params");
-    console.log("params", params);
     var addCustomData = {};
 
     let index = 0;
@@ -392,18 +391,8 @@ plugin.createdUser = async function (params) {
       index += 1;
     }
     addCustomData["uid"] = params.user.uid;
-    console.log("addCustomData", addCustomData);
 
-    var keyID = "`user:`" + params.user.uid + ":ns:custom_fields";
-
-    console.log("keyID", keyID);
-
-    await user.updateProfile(
-      // callerUid,
-      1,
-      addCustomData,
-      keylist
-    );
+    await user.updateProfile(1, addCustomData, keylist);
   } catch (error) {
     console.log(error);
   }
