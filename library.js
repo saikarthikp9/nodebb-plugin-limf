@@ -127,7 +127,7 @@ const customFields = {
 // required: false,
 // autocomplete: "name",
 
-const fields = "";
+var fields = "";
 
 console.log("#################### SETTINGS FIELDS ####################");
 for (var key in customFields) {
