@@ -251,11 +251,6 @@ plugin.customFields = function (params, callback) {
 };
 
 plugin.registerInterstitial = async function (data) {
-  console.log("############# registerInterstitial");
-  console.log("############# data.req.body:");
-  console.log(data.req.body);
-  console.log("############# data.userData:");
-  console.log(data.userData);
   const url = data.req.originalUrl;
   console.log("############# url", url);
 
@@ -287,13 +282,6 @@ plugin.registerInterstitial = async function (data) {
     },
     // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
     callback: async (userData, formData, next) => {
-      const error = false;
-      console.log("############## customInterstital callback");
-      console.log("############## userData");
-      console.log(userData);
-      console.log("############## formData");
-      console.log(formData);
-
       if (formData.test) {
         userData.test = formData.test;
       }
@@ -308,15 +296,6 @@ plugin.registerInterstitial = async function (data) {
   };
   data.interstitials.unshift(customInterstital);
   return data;
-};
-
-plugin.addFieldRegComplete = function (params, callback) {
-  // console.log("addFieldRegComplete");
-  // console.log(params.templateData.sections[0]);
-  // var html = `<div><div class="mb-3"><label class="form-label" for="test">Test</label><input class="form-control" type="text" id="test" name="test" placeholder="{test}" value="{test}" /><p class="form-text">test</p></div></div>`;
-  // params.templateData.sections.push(html);
-  // console.log("end of addFieldRegComplete");
-  callback(null, params);
 };
 
 plugin.addField = function (params, callback) {
