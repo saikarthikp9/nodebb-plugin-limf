@@ -340,7 +340,8 @@ plugin.registerInterstitial = async function (data) {
   }
 
   // if the user already has this data saved, return early. userData contains the contents of req.session.
-  if (data.userData && data.userData.test) {
+  // just checking if at least the first value is entered
+  if (data.userData && data.userData[customFields[0].key]) {
     console.log("############# return", "already in userData");
     return data;
   }
