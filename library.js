@@ -375,8 +375,8 @@ plugin.registerInterstitial = async function (data) {
       console.log("userData.test", userData.test);
 
       // TODO: VALIDATION
-      var error = validation(formData);
-
+      // var error = validation(formData);
+      var error = null;
       // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
       if (!error) {
         // set all values from customFields from formData to userData
