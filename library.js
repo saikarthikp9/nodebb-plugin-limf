@@ -342,7 +342,7 @@ plugin.registerInterstitial = async function (data) {
   // just checking if at least the first value is entered
   // TODO: replace with maker
 
-  for (var interstitialIndex in customFields) {
+  for (let interstitialIndex in customFields) {
     if (!data.userData[Object.keys(customFields[interstitialIndex])[0]]) {
       console.log("############# ", "not in userData");
       console.log(
