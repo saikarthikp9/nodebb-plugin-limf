@@ -298,6 +298,7 @@ plugin.addAdminNavigation = (header) => {
 plugin.whitelistFields = async ({ uids, whitelist }) => {
   for (var key in customFields) {
     whitelist.push(key);
+    whitelist.push("custom_data_collected");
   }
 
   return { uids, whitelist };
@@ -341,8 +342,11 @@ plugin.registerInterstitial = async function (data) {
 
   // if the user already has this data saved, return early. userData contains the contents of req.session.
   // just checking if at least the first value is entered
-  if (data.userData && data.userData[Object.keys(customFields)[0]]) {
-    console.log("############# return", "already in userData");
+  if (data.userData && data.userData.custom_data_collected) {
+    console.log(
+      "############# return",
+      "already in userData custom_data_collected"
+    );
     return data;
   }
 
@@ -373,41 +377,30 @@ plugin.registerInterstitial = async function (data) {
     callback: (userData, formData, next) => {
       console.log("############# callback");
 
-      for (var key in customFields) {
-        console.log(
-          `############# setting ${key} from formData ${formData[key]}`
-        );
-
-        userData[key] = formData[key];
-        console.log(userData[key]);
-      }
-
       // TODO: VALIDATION
       // var error = validation(formData);
-      // var error = null;
+      var error = null;
       // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
-      // if (error == null) {
-      //   // set all values from customFields from formData to userData
-      //   for (var key in customFields) {
-      //     console.log(
-      //       `############# setting ${key} from formData ${formData[key]}`
-      //     );
+      if (error == null) {
+        // set all values from customFields from formData to userData
+        for (var key in customFields) {
+          console.log(
+            `############# setting ${key} from formData ${formData[key]}`
+          );
 
-      //     userData[key] = formData[key];
-      //     console.log(userData[key]);
-      //   }
-      //   console.log("############# userData set and then next(null)");
-      //   console.log("formData", formData);
-      //   console.log("userData", userData);
-      // } else {
-      //   console.log("############# error and then next(error)");
-      //   console.log(error);
-      // }
-      // next(
-      //   error ? new Error("You must answer all the required fields.") : null
-      // );
-
-      next(null);
+          userData[key] = formData[key];
+          console.log(userData[key]);
+        }
+        userData["custom_data_collected"] = true;
+        console.log("############# userData set and then next(null)");
+        console.log("formData", formData);
+        console.log("userData", userData);
+        next(null);
+      } else {
+        console.log("############# error and then next(error)");
+        console.log(error);
+        next(new Error(error));
+      }
     },
   };
   data.interstitials.unshift(customInterstital);
