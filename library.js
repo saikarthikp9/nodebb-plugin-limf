@@ -250,20 +250,20 @@ plugin.customFields = function (params, callback) {
   callback(null, { users: users });
 };
 
-plugin.registerInterstitial = async function (data, callback) {
+plugin.registerInterstitial = async function (data) {
   const url = data.req.originalUrl;
   console.log("############# url", url);
 
   // if the user already has this data saved, return early. userData contains the contents of req.session.
   if (data.userData && data.userData.test) {
-    console.log("early return 1");
-    callback(null, data);
+    console.log("############# return", "already in userData");
+    return data;
   }
 
   // if there is no user data (null case check)
   if (!data.userData) {
-    console.log("early return 2 error");
-    callback(new Error("Invalid Data"));
+    console.log("############# error", "Invalid Data");
+    throw new Error("Invalid Data");
   }
 
   // if data.userData.uid is present it means this is an EXISTING user, not a new user. Check their hash to see whether they submitted the data.
@@ -273,8 +273,8 @@ plugin.registerInterstitial = async function (data, callback) {
       "test"
     );
     if (customData) {
-      console.log("early return 3");
-      callback(null, data);
+      console.log("############# return", "already in DB");
+      return data;
     }
   }
 
@@ -285,7 +285,7 @@ plugin.registerInterstitial = async function (data, callback) {
     },
     // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
     callback: async (userData, formData, next) => {
-      console.log("customInterstital callback");
+      console.log("############# callback");
       if (formData.test) {
         userData.test = formData.test;
       }
@@ -299,8 +299,8 @@ plugin.registerInterstitial = async function (data, callback) {
     },
   };
   data.interstitials.unshift(customInterstital);
-  console.log("last return");
-  callback(null, data);
+  console.log("############# last return");
+  return data;
 };
 
 plugin.addField = function (params, callback) {
