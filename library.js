@@ -284,7 +284,7 @@ plugin.registerInterstitial = async function (data) {
       test: "test from customInterstital",
     },
     // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
-    callback: async (userData, formData, next) => {
+    callback: (userData, formData, next) => {
       console.log("############# callback");
       console.log("formData.test", formData.test);
       console.log("userData.test", userData.test);
