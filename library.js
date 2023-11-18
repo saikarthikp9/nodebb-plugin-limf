@@ -24,7 +24,7 @@ const customFields = {
     help_text: "",
     type: "text",
     validation_type: "name",
-    required: false,
+    required: true,
     autocomplete: "name",
   },
   // email: {
@@ -37,16 +37,16 @@ const customFields = {
   //   required: true,
   //   autocomplete: "email",
   // },
-  // phone: {
-  //   label: "Phone Number",
-  //   placeholder: "+919848249183",
-  //   help_text:
-  //     "Include the country code, +1 for US/Canada, +91 for India, etc.",
-  //   type: "text",
-  //   validation_type: "phone",
-  //   required: true,
-  //   autocomplete: "tel",
-  // },
+  phone: {
+    label: "Phone Number",
+    placeholder: "+919848249183",
+    help_text:
+      "Include the country code, +1 for US/Canada, +91 for India, etc.",
+    type: "text",
+    validation_type: "phone",
+    required: true,
+    autocomplete: "tel",
+  },
   // current_address: {
   //   label: "City of Current Residence",
   //   placeholder: "Bangalore",
@@ -134,10 +134,45 @@ for (var key in customFields) {
   if (customFields[key].type == "text") {
     fields += `
   <label class="form-label" for="${key}">${customFields[key].label}</label>
-	<input class="form-control" type="${customFields[key].type}" id="${key}" name="${key}" placeholder="${customFields[key].placeholder}" value="{test}" autocomplete="${customFields[key].autocomplete}" required="${customFields[key].required} />
+	<input class="form-control" type="${customFields[key].type}" id="${key}" name="${key}" placeholder="${customFields[key].placeholder}" autocomplete="${customFields[key].autocomplete}" required="${customFields[key].required} />
 	<p class="form-text">${customFields[key].help_text}</p>
   `;
   }
+}
+
+// validates only if validation_type is set OR if required
+function validation(formData) {
+  console.log("################ Validation");
+  var error = "";
+  for (var key in customFields) {
+    var value = formData[key];
+    if (customFields[key].validation_type == "phone") {
+      if (value.length < 10 || !/^\+\d{8,}$/.test(value)) {
+        error +=
+          "Invalid phone number. It must start with a '+' and be 10 digits or more./n";
+      }
+    } else if (customFields[key].validation_type == "address") {
+      if (value.length < 3) {
+        error = { message: "Enter a valid address." };
+      } else if (/[!@$%^&*(),?":{}|<>]/.test(value)) {
+        error += "Invalid address. It must not contain special characters./n/n";
+      }
+    } else if (customFields[key].validation_type == "email") {
+      if (!/^(?![A-Z])[\w\.\-\+]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        error += "Invalid email address./n";
+      }
+    }
+    // TODO: maybe wont check required since it can be handled at client-side input level
+    // else if (customFields[key].required) {
+    //   if (value == "" || value == undefined) {
+    //     error += "Please complete all required fields before submitting.";
+    //   }
+    // }
+  }
+  if (error == "") {
+    return null;
+  }
+  return error;
 }
 
 // if (customFields[key].type == "text") {
@@ -264,7 +299,6 @@ plugin.whitelistFields = async ({ uids, whitelist }) => {
   for (var key in customFields) {
     whitelist.push(key);
   }
-  whitelist.push("custom_data_collected");
 
   return { uids, whitelist };
 };
@@ -334,17 +368,23 @@ plugin.registerInterstitial = async function (data) {
       console.log("############# callback");
       console.log("formData.test", formData.test);
       console.log("userData.test", userData.test);
-      if (formData.test) {
-        userData.test = formData.test;
-      }
-      userData.custom_data_collected = true;
+
+      // TODO: VALIDATION
+      var error = validation(formData);
 
       // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
-      next(
-        userData.test
-          ? null
-          : new Error("You must answer all the required fields.")
-      );
+      if (!error) {
+        // set all values from customFields from formData to userData
+        for (var key in customFields) {
+          userData[key] = formData[key];
+        }
+        console.log("############# setting userData and then next(null)");
+        next(null);
+      } else {
+        console.log("############# error and then next(error)");
+        console.log(error);
+        next(new Error(error));
+      }
     },
   };
   data.interstitials.unshift(customInterstital);
@@ -480,6 +520,7 @@ plugin.createdUser = async function (params) {
     console.log(error);
   }
 };
+
 plugin.addToApprovalQueue = function (params, callback) {
   console.log("addToApprovalQueue");
   console.log(params.data);
