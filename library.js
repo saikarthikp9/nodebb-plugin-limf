@@ -128,7 +128,7 @@ for (var key in customFields) {
     for (var option of select_options) {
       html += `<option value="${option.value}">${option.label}</option>`;
     }
-    html += `<p class="form-text">${help_text}</p>`;
+    html += `</select><p class="form-text">${help_text}</p>`;
     fields += html;
   }
 }
