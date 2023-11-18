@@ -170,6 +170,7 @@ function validation(formData, interstitialIndex) {
       }
     }
   }
+  console.log("################ Validation errors:", error);
   if (error == "") {
     return null;
   }
@@ -341,7 +342,10 @@ plugin.registerInterstitial = async function (data) {
   for (var interstitialIndex in customFields) {
     if (!data.userData[Object.keys(customFields[interstitialIndex])[0]]) {
       console.log("############# ", "not in userData");
-
+      console.log(
+        "Checked in data.userData for ",
+        Object.keys(customFields[interstitialIndex])[0]
+      );
       // add interstitial
       var customInterstital = {
         template: "partials/customRegistration",
@@ -358,8 +362,14 @@ plugin.registerInterstitial = async function (data) {
           // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
           if (error == null) {
             // set all values from customFields from formData to userData
+            console.log(
+              "############# set userData for interstitialIndex ",
+              interstitialIndex
+            );
             for (var key in customFields[interstitialIndex]) {
+              console.log("############# set userData for key ", key);
               userData[key] = formData[key];
+              console.log("userData[key]", userData[key]);
             }
             console.log("############# userData set and then next(null)");
             next(null);
