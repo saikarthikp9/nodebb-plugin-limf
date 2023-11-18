@@ -334,6 +334,11 @@ plugin.registerInterstitial = async function (data) {
   const url = data.req.originalUrl;
   console.log("############# url", url);
 
+  if (!url.startsWith("/register/complete")) {
+    console.log("############# return", "not register/complete");
+    return data;
+  }
+
   // if the user already has this data saved, return early. userData contains the contents of req.session.
   if (data.userData && data.userData.test) {
     console.log("############# return", "already in userData");
