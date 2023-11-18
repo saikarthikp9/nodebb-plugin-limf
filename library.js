@@ -372,31 +372,41 @@ plugin.registerInterstitial = async function (data) {
     callback: (userData, formData, next) => {
       console.log("############# callback");
 
-      // TODO: VALIDATION
-      // var error = validation(formData);
-      var error = null;
-      // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
-      if (error == null) {
-        // set all values from customFields from formData to userData
-        for (var key in customFields) {
-          console.log(
-            `############# setting ${key} from formData ${formData[key]}`
-          );
+      for (var key in customFields) {
+        console.log(
+          `############# setting ${key} from formData ${formData[key]}`
+        );
 
-          userData[key] = formData[key];
-          console.log(userData[key]);
-        }
-        console.log("############# userData set and then next(null)");
-        console.log("formData", formData);
-        console.log("userData", userData);
-      } else {
-        console.log("############# error and then next(error)");
-        console.log(error);
+        userData[key] = formData[key];
+        console.log(userData[key]);
       }
 
-      next(
-        error ? new Error("You must answer all the required fields.") : null
-      );
+      // TODO: VALIDATION
+      // var error = validation(formData);
+      // var error = null;
+      // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
+      // if (error == null) {
+      //   // set all values from customFields from formData to userData
+      //   for (var key in customFields) {
+      //     console.log(
+      //       `############# setting ${key} from formData ${formData[key]}`
+      //     );
+
+      //     userData[key] = formData[key];
+      //     console.log(userData[key]);
+      //   }
+      //   console.log("############# userData set and then next(null)");
+      //   console.log("formData", formData);
+      //   console.log("userData", userData);
+      // } else {
+      //   console.log("############# error and then next(error)");
+      //   console.log(error);
+      // }
+      // next(
+      //   error ? new Error("You must answer all the required fields.") : null
+      // );
+
+      next(null);
     },
   };
   data.interstitials.unshift(customInterstital);
