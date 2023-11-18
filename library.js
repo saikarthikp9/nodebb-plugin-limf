@@ -148,7 +148,10 @@ for (var interstitialIndex in customFields) {
 
 // validates only if validation_type is set OR if required
 function validation(formData, interstitialIndex) {
-  console.log("################ Validation");
+  console.log(
+    "################ Validation for interstitialIndex:",
+    interstitialIndex
+  );
   var error = "";
   for (var key in customFields[interstitialIndex]) {
     var value = formData[key];
@@ -354,7 +357,10 @@ plugin.registerInterstitial = async function (data) {
         },
         // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
         callback: (userData, formData, next) => {
-          console.log("############# callback");
+          console.log(
+            "############# callback for interstitialIndex",
+            interstitialIndex
+          );
 
           // TODO: VALIDATION
           var error = validation(formData, interstitialIndex);
