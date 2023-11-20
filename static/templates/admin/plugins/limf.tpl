@@ -17,10 +17,15 @@
 
 					<div class="mb-3">
 						<label class="form-label" for="customFields">Custom Fields</label>
-						<textarea rows="10" cols="60" id="customFields" name="customFields" title="Custom Fields" class="form-control" placeholder="{}">
-						</textarea>
+						<input type="text" id="customFields" name="customFields" title="Custom Fields" class="form-control" placeholder="{}">
+						</input>
 					</div>
 
+					<div class="mb-3">
+						<p class="lead">
+							{customFields}
+						</p>
+					</div>
 				</div>
 			</form>
 		</div>

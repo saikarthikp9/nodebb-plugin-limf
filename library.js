@@ -245,7 +245,12 @@ plugin.init = async (params) => {
   routeHelpers.setupAdminPageRoute(
     router,
     "/admin/plugins/limf",
-    controllers.renderAdminPage
+    (function (customFields) {
+      return function (req, res, next) {
+        // Call the renderAdminPage function and pass the customFields
+        controllers.renderAdminPage(req, res, next, customFields);
+      };
+    })(customFields)
   );
 };
 
