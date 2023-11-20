@@ -51,7 +51,7 @@
 					</div>
 				</div>
 
-				<div>
+				<div class="mb-4">
 					<h5 class="fw-bold tracking-tight settings-header">Uploads</h5>
 
 					<label class="form-label" for="uploadedImage">Upload Image</label>
@@ -60,10 +60,18 @@
 						<input value="Upload" data-action="upload" data-target="uploadedImage" type="button" class="btn btn-light" />
 					</div>
 				</div>
+
+				<div>
+					<h5 class="fw-bold tracking-tight settings-header">New User Group</h5>
+
+					<div class="mb-3 d-flex gap-2">
+						<label class="form-label" for="userGroup">Enter an existing group name</label>
+						<input type="text" id="userGroup" name="userGroup" title="Group Name" class="form-control" placeholder="Group Name">
+					</div>
+				</div>
 			</form>
 		</div>
 
-		<!-- IMPORT admin/plugins/limf/partials/newuser-group.tpl -->
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
 		
 	</div>
