@@ -181,12 +181,18 @@ plugin.init = async (params) => {
         "[plugins/limf] customFields not valid JSON! Using defaultCustomFields."
       );
       customFields = defaultCustomFields;
+      await meta.settings.set("limf", {
+        customFields: JSON.stringify(defaultCustomFields),
+      });
     }
   } else {
     winston.error(
       "[plugins/limf] customFields not set! Using defaultCustomFields."
     );
     customFields = defaultCustomFields;
+    await meta.settings.set("limf", {
+      customFields: JSON.stringify(defaultCustomFields),
+    });
   }
 
   console.log("#################### SETTINGS FIELDS ####################");
