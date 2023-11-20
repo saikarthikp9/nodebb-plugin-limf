@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-saiberio-limf",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "Custom plugin for the LIMF forum",
   "main": "library.js",
   "repository": {
