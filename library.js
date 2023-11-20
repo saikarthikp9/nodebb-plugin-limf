@@ -174,7 +174,14 @@ plugin.init = async (params) => {
   }
 
   if (settings && settings.customFields) {
-    customFields = JSON.parse(settings.customFields);
+    try {
+      customFields = JSON.parse(settings.customFields);
+    } catch (e) {
+      winston.error(
+        "[plugins/limf] customFields not valid JSON! Using defaultCustomFields."
+      );
+      customFields = defaultCustomFields;
+    }
   } else {
     winston.error(
       "[plugins/limf] customFields not set! Using defaultCustomFields."
