@@ -107,6 +107,7 @@ const customFields = {
 };
 
 var formFields = [];
+let userGroup = null;
 
 console.log("#################### SETTINGS FIELDS ####################");
 for (var interstitialIndex in customFields) {
@@ -189,9 +190,14 @@ plugin.init = async (params) => {
   const { router /* , middleware , controllers */ } = params;
 
   // Settings saved in the plugin settings can be retrieved via settings methods
-  const { setting1, setting2 } = await meta.settings.get("limf");
+  const { settings, setting1, setting2 } = await meta.settings.get("limf");
   if (setting1) {
     console.log(setting2);
+  }
+  if (settings && settings.userGroup) {
+    userGroup = settings.userGroup;
+  } else {
+    winston.error("[plugins/limf] New User group not set!");
   }
 
   /**
@@ -464,6 +470,12 @@ plugin.addToApprovalQueue = function (params, callback) {
   }
 
   callback(null, { data: data, userData: userData });
+};
+
+plugin.assignUserToGroup = async function (data) {
+  if (userGroup != null && data && data.user) {
+    await groups.join(userGroup, data.user.uid);
+  }
 };
 
 module.exports = plugin;
