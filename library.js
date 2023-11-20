@@ -2,15 +2,26 @@
 
 const nconf = require.main.require("nconf");
 const winston = require.main.require("winston");
-
 const meta = require.main.require("./src/meta");
-
 const controllers = require("./lib/controllers");
-
 const routeHelpers = require.main.require("./src/routes/helpers");
 
 // The numbers represent the interstitial index number and grouping of fields
-const customFields = {
+const defaultCustomFields = {
+  0: {
+    fullname: {
+      label: "Full Name",
+      placeholder: "John Smith",
+      help_text: "",
+      type: "text",
+      validation_type: "name",
+      required: true,
+      autocomplete: "name",
+    },
+  },
+};
+
+const defaultCustomFields2 = {
   0: {
     fullname: {
       label: "Full Name",
@@ -108,44 +119,7 @@ const customFields = {
 
 var formFields = [];
 let userGroup = null;
-
-console.log("#################### SETTINGS FIELDS ####################");
-for (var interstitialIndex in customFields) {
-  for (var key in customFields[interstitialIndex]) {
-    const label = customFields[interstitialIndex][key].label;
-    const placeholder = customFields[interstitialIndex][key].placeholder;
-    const help_text = customFields[interstitialIndex][key].help_text;
-    const type = customFields[interstitialIndex][key].type;
-    const required = customFields[interstitialIndex][key].required;
-    const autocomplete = customFields[interstitialIndex][key].autocomplete;
-
-    if (!formFields[interstitialIndex]) {
-      formFields[interstitialIndex] = "";
-    }
-    if (type == "text") {
-      formFields[interstitialIndex] += `
-      <label class="form-label" for="${key}">${label}</label>
-      <input class="form-control" type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" autocomplete="${autocomplete}" ${
-        required ? "required" : ""
-      } />
-      <p class="form-text">${help_text}</p>
-    `;
-    } else if (type == "select") {
-      const select_options =
-        customFields[interstitialIndex][key].select_options;
-      const multiple = customFields[interstitialIndex][key].multiple;
-      var html = `<label class="form-label" for="${key}">${label}</label>
-    <select class="form-control" type="text" name="${key}" id="${key}" ${
-        multiple ? "multiple" : ""
-      }>`;
-      for (var option of select_options) {
-        html += `<option value="${option.value}">${option.label}</option>`;
-      }
-      html += `</select><p class="form-text">${help_text}</p>`;
-      formFields[interstitialIndex] += html;
-    }
-  }
-}
+let customFields = null;
 
 // validates only if validation_type is set OR if required
 function validation(formData, interstitialIndex) {
@@ -192,15 +166,57 @@ plugin.init = async (params) => {
 
   // Settings saved in the plugin settings can be retrieved via settings methods
   const settings = await meta.settings.get("limf");
-  if (settings && settings.setting1) {
-    console.log(settings.setting2);
-  }
+
   if (settings && settings.userGroup) {
     userGroup = settings.userGroup;
   } else {
     winston.error("[plugins/limf] New User group not set!");
   }
 
+  if (settings && settings.customFields) {
+    customFields = settings.customFields;
+  } else {
+    winston.error(
+      "[plugins/limf] customFields not set! Using defaultCustomFields."
+    );
+    customFields = defaultCustomFields;
+  }
+
+  console.log("#################### SETTINGS FIELDS ####################");
+  for (var interstitialIndex in customFields) {
+    for (var key in customFields[interstitialIndex]) {
+      const { label, placeholder, help_text, type, required, autocomplete } =
+        customFields[interstitialIndex][key];
+      if (!formFields[interstitialIndex]) {
+        formFields[interstitialIndex] = "";
+      }
+      if (type == "text") {
+        formFields[interstitialIndex] += `
+      <label class="form-label" for="${key}">${label}</label>
+      <input class="form-control" type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" autocomplete="${autocomplete}" ${
+          required ? "required" : ""
+        } />
+      <p class="form-text">${help_text}</p>
+    `;
+      } else if (type == "select") {
+        const select_options =
+          customFields[interstitialIndex][key].select_options;
+        const multiple = customFields[interstitialIndex][key].multiple;
+        var html = `<label class="form-label" for="${key}">${label}</label>
+          <select class="form-control" type="text" name="${key}" id="${key}" ${
+          multiple ? "multiple" : ""
+        }>`;
+        for (var option of select_options) {
+          html += `<option value="${option.value}">${option.label}</option>`;
+        }
+        html += `</select><p class="form-text">${help_text}</p>`;
+        formFields[interstitialIndex] += html;
+      } else {
+        console.log("#################### ERROR ####################");
+        console.log("Unsuppored type:", type);
+      }
+    }
+  }
   /**
    * We create two routes for every view. One API call, and the actual route itself.
    * Use the `setupPageRoute` helper and NodeBB will take care of everything for you.
