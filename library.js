@@ -182,7 +182,7 @@ plugin.init = async (params) => {
       );
       customFields = defaultCustomFields;
       await meta.settings.set("limf", {
-        customFields: JSON.stringify(defaultCustomFields),
+        customFields: JSON.stringify(defaultCustomFields, undefined, 4),
       });
     }
   } else {
@@ -191,7 +191,7 @@ plugin.init = async (params) => {
     );
     customFields = defaultCustomFields;
     await meta.settings.set("limf", {
-      customFields: JSON.stringify(defaultCustomFields),
+      customFields: JSON.stringify(defaultCustomFields, undefined, 4),
     });
   }
 
