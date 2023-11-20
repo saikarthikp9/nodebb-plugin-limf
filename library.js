@@ -190,9 +190,9 @@ plugin.init = async (params) => {
   const { router /* , middleware , controllers */ } = params;
 
   // Settings saved in the plugin settings can be retrieved via settings methods
-  const { settings, setting1, setting2 } = await meta.settings.get("limf");
-  if (setting1) {
-    console.log(setting2);
+  const settings = await meta.settings.get("limf");
+  if (settings && settings.setting1) {
+    console.log(settings.setting2);
   }
   if (settings && settings.userGroup) {
     userGroup = settings.userGroup;
