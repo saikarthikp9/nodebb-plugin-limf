@@ -182,6 +182,7 @@ function validation(formData, interstitialIndex) {
 }
 
 const user = require.main.require("./src/user");
+const groups = require.main.require("./src/groups");
 const db = require.main.require("./src/database");
 
 const plugin = {};
@@ -449,6 +450,10 @@ plugin.createdUser = async function (params) {
     addCustomData["uid"] = params.user.uid;
 
     await user.updateProfile(1, addCustomData, keylist);
+
+    if (userGroup != null) {
+      await groups.join(userGroup, params.user.uid);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -470,12 +475,6 @@ plugin.addToApprovalQueue = function (params, callback) {
   }
 
   callback(null, { data: data, userData: userData });
-};
-
-plugin.assignUserToGroup = async function (data) {
-  if (userGroup != null && data && data.user) {
-    await groups.join(userGroup, data.user.uid);
-  }
 };
 
 module.exports = plugin;
