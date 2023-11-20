@@ -63,6 +63,7 @@
 			</form>
 		</div>
 
+		<!-- IMPORT admin/plugins/limf/partials/newuser-group.tpl -->
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
 		
 	</div>
