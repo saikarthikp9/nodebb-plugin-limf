@@ -22,6 +22,7 @@
 					</div>
 
 					<div class="mb-3">
+						<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
 						<p class="lead">
 							{customFields}
 						</p>
