@@ -18,20 +18,6 @@ const defaultCustomFields = {
       required: true,
       autocomplete: "name",
     },
-  },
-};
-
-const defaultCustomFields2 = {
-  0: {
-    fullname: {
-      label: "Full Name",
-      placeholder: "John Smith",
-      help_text: "",
-      type: "text",
-      validation_type: "name",
-      required: true,
-      autocomplete: "name",
-    },
     phone: {
       label: "Phone Number",
       placeholder: "+919848249183",
