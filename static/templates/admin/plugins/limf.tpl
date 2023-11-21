@@ -25,21 +25,28 @@
 				<hr />
 				{{{ each customFields }}}
 					<b>Interstitial/Grouping { @key }</b><br><br>
+					 
 					{{{ each @value }}}
+						<table>
 						{{{ each @value }}}
+							<tr>
 							{{{ if isObject(@value) }}}
-								VALUES:[
+								{{{ each @value }}}
 									{{{ each @value }}}
-										{{{ each @value }}}
-											{ @key }: { @value } |
-										{{{ end }}}
+										<tr>
+											<th></th>
+											<td>{ @key }</td>
+											<td>{ @value }</td>
+										</tr>
 									{{{ end }}}
-								]
+								{{{ end }}}
 							{{{ else }}}
-								{ @key }: { @value } |
+								<th>{ @key }</th>
+								<td>{ @value }</td>
 							{{{ end }}}
+							</tr>
 						{{{ end }}}
-						<br>
+						<table>
 					{{{ end }}}
 					<hr />
 				{{{ end }}}
