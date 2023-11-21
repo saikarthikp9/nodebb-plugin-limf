@@ -4,10 +4,8 @@
 	<div class="row m-0">
 		<div id="spy-container" class="col-12 col-md-8 px-0 mb-4" tabindex="0">
 			<form role="form" class="limf-settings">
-
 				<div>
 					<h5 class="fw-bold tracking-tight settings-header">New User Group</h5>
-
 					<div class="mb-3">
 						<label class="form-label" for="userGroup">Enter an existing group name</label>
 						<input type="text" id="userGroup" name="userGroup" title="Group Name" class="form-control" placeholder="Group Name">
@@ -21,24 +19,23 @@
 						</input>
 					</div>
 				</div>
-			</form>
-			
-		</div>
-		<div class="mb-3">
-			<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
-			<b>Interstitial,Label,Placeholder,Help Text,Type,Validation Type,Required,Autocomplete</b>
-			<hr />
-			{{{ each customFields }}}
-					{ @key },
-					{{{ each @value }}}
+			</form>	
+			<div class="mb-3">
+				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
+				<b>Interstitial,Label,Placeholder,Help Text,Type,Validation Type,Required,Autocomplete</b>
+				<hr />
+				{{{ each customFields }}}
+						{ @key },
 						{{{ each @value }}}
-							{ @value },
+							{{{ each @value }}}
+								{ @value },
+							{{{ end }}}
+							<hr />
 						{{{ end }}}
-					{{{ end }}}<hr />
-			{{{ end }}}
+						<hr />
+				{{{ end }}}
+			</div>
 		</div>
-
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
-		
 	</div>
 </div>
