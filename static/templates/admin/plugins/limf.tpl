@@ -22,7 +22,6 @@
 			</form>	
 			<div class="mb-3">
 				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
-				Format: Label, Placeholder, Help Text, Type, Validation Type, Required, Autocomplete
 				<hr />
 				{{{ each customFields }}}
 					<b>Interstitial/Grouping { @key }</b><br><br>
@@ -31,11 +30,13 @@
 							{{{ if isObject(@value) }}}
 								VALUES:[
 									{{{ each @value }}}
-										{ @value },
+										{{{ each @value }}}
+											{ @key }: { @value } |
+										{{{ end }}}
 									{{{ end }}}
 								]
 							{{{ else }}}
-								{ @value },
+								{ @key }: { @value } |
 							{{{ end }}}
 						{{{ end }}}
 						<br>
