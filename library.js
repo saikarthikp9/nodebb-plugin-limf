@@ -5,6 +5,7 @@ const winston = require.main.require("winston");
 const meta = require.main.require("./src/meta");
 const controllers = require("./lib/controllers");
 const routeHelpers = require.main.require("./src/routes/helpers");
+const Benchpress = require.main.require("benchpressjs");
 
 // The numbers represent the interstitial index number and grouping of fields
 const defaultCustomFields = {
@@ -149,6 +150,11 @@ const plugin = {};
 
 plugin.init = async (params) => {
   const { router /* , middleware , controllers */ } = params;
+
+  // setup benchpress custom helper function
+  Benchpress.registerHelper("isObject", function (val) {
+    return typeof val === "object";
+  });
 
   // Settings saved in the plugin settings can be retrieved via settings methods
   const settings = await meta.settings.get("limf");
