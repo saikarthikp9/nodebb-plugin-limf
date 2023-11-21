@@ -15,9 +15,10 @@ export function init() {
 }
 
 function handleSettingsForm() {
-  load("limf", $(".limf-settings"), function () {
-    setupColorInputs();
-  });
+  load("limf", $(".limf-settings"));
+  console.log("handleSettingsForm");
+  console.log($(".limf-settings"));
+  console.log("####################HERE ^^#####################");
 
   $("#save").on("click", () => {
     console.log("Saving settings");
