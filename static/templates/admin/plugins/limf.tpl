@@ -22,16 +22,16 @@
 			</form>	
 			<div class="mb-3">
 				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
-				Label,Placeholder,Help Text,Type,Validation Type,Required,Autocomplete
+				Format: Label, Placeholder, Help Text, Type, Validation Type, Required, Autocomplete
 				<hr />
 				{{{ each customFields }}}
-					<b>Interstitial { @key }</b><br>
+					<b>Interstitial/Grouping { @key }</b><br><br>
 					{{{ each @value }}}
 						{{{ each @value }}}
 							{ @value },
 						{{{ end }}}
-						<hr />
 					{{{ end }}}
+					<hr />
 				{{{ end }}}
 			</div>
 		</div>
