@@ -23,9 +23,30 @@
 
 					<div class="mb-3">
 						<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
-						<p class="lead">
-							{customFields}
-						</p>
+						<table>
+							<thead>
+								<tr>
+								<th>Interstitial</th>
+								<th>Label</th>
+								<th>Placeholder</th>
+								<th>Help Text</th>
+								<th>Type</th>
+								<th>Validation Type</th>
+								<th>Required</th>
+								<th>Autocomplete</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{{#each customFields}}}
+								<tr>
+									<td>{{@index}}</td>
+									{{{#each this}}}
+									<td>{{{this}}}</td>
+									{{{/each}}}
+								</tr>
+								{{{/each}}}
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</form>
