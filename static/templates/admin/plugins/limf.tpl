@@ -24,47 +24,15 @@
 			</form>
 			<div class="mb-3">
 				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
+				Interstitial,Label,Placeholder,Help Text,Type,Validation Type,Required,Autocomplete
 				{{{ each customFields }}}
-						{ @key }
-						{{{ each @value }}}
-							key: { @key } value: { ../label },
-						{{{ end }}}
-						<hr />
+						{ @key },
 						{{{ each @value }}}
 							{{{ each @value }}}
-								value: { @value } value.label: { ../label },
+								{ @value },
 							{{{ end }}}
 						{{{ end }}}
 				{{{ end }}}
-				<table>
-					<thead>
-						<tr>
-						<th>Interstitial</th>
-						<th>Label</th>
-						<th>Placeholder</th>
-						<th>Help Text</th>
-						<th>Type</th>
-						<th>Validation Type</th>
-						<th>Required</th>
-						<th>Autocomplete</th>
-						</tr>
-					</thead>
-					<tbody>
-						{{{ each customFields }}}
-							<tr>
-								<td> { @key }</td>
-									{{{ each @value }}}
-										<td>key: { @key } value: { @value.label }</td>
-									{{{ end }}}
-									{{{ each @value }}}
-										{{{ each @value }}}
-											<td>key: { @key } value: { customFields.label }</td>
-										{{{ end }}}
-									{{{ end }}}
-							</tr>
-						{{{ end }}}
-					</tbody>
-				</table>
 			</div>
 		</div>
 
