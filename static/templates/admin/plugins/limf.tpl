@@ -28,6 +28,7 @@
 			<table>
 				<thead>
 					<tr>
+					<th>Interstitial</th>
 					<th>Label</th>
 					<th>Placeholder</th>
 					<th>Help Text</th>
@@ -39,20 +40,22 @@
 				</thead>
 				<tbody>
 					{{{ each customFields }}}
-					<tr>
-						{{{ each @value }}}
-							<td>{ ./label }</td>
-							<td>{ ./placeholder }</td>
-							<td>{ ./help_text }</td>
-							<td>{ ./type }</td>
-							<td>{ ./validation_type }</td>
-							<td>{ ./required }</td>
-							<td>{ ./autocomplete }</td>
-						{{{ end }}}
-					</tr>
-					{{{ each }}}
+						<tr>
+							{{{ each @value }}}
+								<td>{ @key }</td>
+								<td>{ ./label }</td>
+								<td>{ ./placeholder }</td>
+								<td>{ ./help_text }</td>
+								<td>{ ./type }</td>
+								<td>{ ./validation_type }</td>
+								<td>{ ./required }</td>
+								<td>{ ./autocomplete }</td>
+							{{{ end }}}
+						</tr>
+					{{{ end }}}
 				</tbody>
 			</table>
+			{ customFields }
 		</div>
 
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
