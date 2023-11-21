@@ -28,7 +28,11 @@
 					<b>Interstitial/Grouping { @key }</b><br><br>
 					{{{ each @value }}}
 						{{{ each @value }}}
-							{ @value },
+							{{{ if (typeof @value === 'object') }}}
+								OBJECT
+							{{{ else }}}
+								{ @value },
+							{{{ end }}}
 						{{{ end }}}
 						<br>
 					{{{ end }}}
