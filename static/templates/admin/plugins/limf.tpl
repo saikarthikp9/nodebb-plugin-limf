@@ -37,14 +37,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{{#each customFields}}}
+								{{{ each customFields }}}
 								<tr>
-									<td>{{@index}}</td>
-									{{{#each this}}}
-									<td>{{{this}}}</td>
-									{{{/each}}}
+									<td>{ @key }</td>
+									{{{ each @value }}}
+									<td>{ @value }</td>
+									{{{ each }}}
 								</tr>
-								{{{/each}}}
+								{{{each}}}
 							</tbody>
 						</table>
 					</div>
