@@ -40,15 +40,25 @@
 				</thead>
 				<tbody>
 					<!-- BEGIN customFields -->
-						{{#each customFields}}
-							{{#each this}}
-								{{@key}}: {{this}}
-							{{/each}}
-						{{/each}}
+						{{{ each customFields }}}
+							{{{ each this }}}
+								{ @key }: { this }
+							{{{ end }}}
+						{{{ end }}}
 					<!-- END -->
 				</tbody>
 			</table>
 			{ customFields }
+			{{{ each customFields }}}
+				{{{ each @value }}}
+					{ @key }: { @value }
+				{{{ end }}}
+			{{{ end }}}
+			{{{ each customFields }}}
+				{{{ each @value }}}
+					{ ./label }
+				{{{ end }}}
+			{{{ end }}}
 		</div>
 
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
