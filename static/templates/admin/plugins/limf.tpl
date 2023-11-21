@@ -53,7 +53,7 @@
 								{{{ each @value }}}
 									{{{ each @value }}}
 										<tr>
-											<th>Option</th>
+											<th>Option { @index }</th>
 											<td>{ @key }</td>
 											<td>{ @value }</td>
 										</tr>
@@ -65,6 +65,7 @@
 							{{{ end }}}
 							</tr>
 						</table>
+						<hr />
 						{{{ end }}}
 					{{{ end }}}
 					<hr />
