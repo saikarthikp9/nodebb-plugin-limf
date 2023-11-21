@@ -46,8 +46,8 @@
 				{{{ each customFields }}}
 					<b>Interstitial/Grouping { @key }</b><br><br>
 					{{{ each @value }}}
-						{{{ each @value }}}
 						<table>
+						{{{ each @value }}}
 							<tr>
 							{{{ if isObject(@value) }}}
 								{{{ each @value }}}
@@ -64,9 +64,9 @@
 								<td>{ @value }</td>
 							{{{ end }}}
 							</tr>
+						{{{ end }}}
 						</table>
 						<hr />
-						{{{ end }}}
 					{{{ end }}}
 					<hr />
 				{{{ end }}}
