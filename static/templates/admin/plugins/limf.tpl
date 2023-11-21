@@ -40,39 +40,27 @@
 					<tbody>
 						{{{ each customFields }}}
 							<tr>
-								{{{ each @value }}}
-									<td>{ @key }</td>
-									<td>{ ./label }</td>
-									<td>{ ./placeholder }</td>
-									<td>{ ./help_text }</td>
-									<td>{ ./type }</td>
-									<td>{ ./validation_type }</td>
-									<td>{ ./required }</td>
-									<td>{ ./autocomplete }</td>
-								{{{ end }}}
+								<td>key1: { @key }</td>
+									{{{ each @value }}}
+											<td>{ ./label }</td>
+											<td>{ ./placeholder }</td>
+											<td>{ ./help_text }</td>
+											<td>{ ./type }</td>
+											<td>{ ./validation_type }</td>
+											<td>{ ./required }</td>
+											<td>{ ./autocomplete }</td>
+									{{{ end }}}
 							</tr>
 						{{{ end }}}
-						
+						<hr />
+						{{{ each customFields }}}
+							<tr>
+								<td>key2: { @key }</td>
+								<td>value2: { @value }</td>
+							</tr>
+						{{{ end }}}
 					</tbody>
 				</table>
-				{ customFields }
-				{{{ each customFields }}}
-					{{{ each @value }}}
-						{ @key }: { @value }
-					{{{ end }}}
-				{{{ end }}}
-				{{{ each customFields }}}
-					{{{ each @value }}}
-						{ ./label }
-					{{{ end }}}
-				{{{ end }}}
-				<!-- BEGIN customFields -->
-					{{#each customFields}}
-						{{#each this}}
-							{{@key}}: {{this}}
-						{{/each}}
-					{{/each}}
-				<!-- END -->
 			</div>
 		</div>
 
