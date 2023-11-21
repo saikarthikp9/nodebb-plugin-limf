@@ -28,7 +28,6 @@
 			<table>
 				<thead>
 					<tr>
-					<th>Interstitial</th>
 					<th>Label</th>
 					<th>Placeholder</th>
 					<th>Help Text</th>
@@ -41,16 +40,17 @@
 				<tbody>
 					{{{ each customFields }}}
 					<tr>
-						<td>{ @key }</td>
-						<td>{ customFields.label }</td>
-						<td>{ customFields.placeholder }</td>
-						<td>{ customFields.help_text }</td>
-						<td>{ customFields.type }</td>
-						<td>{ customFields.validation_type }</td>
-						<td>{ customFields.required }</td>
-						<td>{ customFields.autocomplete }</td>
+						{{{ each @value }}}
+							<td>{ ./label }</td>
+							<td>{ ./placeholder }</td>
+							<td>{ ./help_text }</td>
+							<td>{ ./type }</td>
+							<td>{ ./validation_type }</td>
+							<td>{ ./required }</td>
+							<td>{ ./autocomplete }</td>
+						{{{ end }}}
 					</tr>
-					{{{each}}}
+					{{{ each }}}
 				</tbody>
 			</table>
 		</div>
