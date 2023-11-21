@@ -51,13 +51,14 @@
 							<tr>
 							{{{ if isObject(@value) }}}
 								{{{ each @value }}}
-									{{{ each @value }}}
-										<tr>
-											<th>Option { @index }</th>
-											<td>{ @key }</td>
-											<td>{ @value }</td>
-										</tr>
-									{{{ end }}}
+									<tr>
+										<th>Option { @index } { @key }</th>
+										<td>
+											{{{ each @value }}}
+												{ @value }<br>
+											{{{ end }}}
+										</td>
+									</tr>
 								{{{ end }}}
 							{{{ else }}}
 								<th>{ @key }</th>
