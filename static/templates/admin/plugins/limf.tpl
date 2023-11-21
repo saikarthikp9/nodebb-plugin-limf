@@ -23,18 +23,37 @@
 			<div class="mb-3">
 				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
 				<hr />
+				<style>
+					table {
+						border-collapse: collapse;
+					}
+
+					th, td {
+						border: 1px solid black;
+						padding: 8px;
+					}
+
+					th {
+						text-align: left;
+					}
+
+					/* Style to indicate nesting levels */
+					td.nested {
+						border-left: 2px solid gray;
+						padding-left: 16px;
+					}
+				</style>
 				{{{ each customFields }}}
 					<b>Interstitial/Grouping { @key }</b><br><br>
-					 
 					{{{ each @value }}}
-						<table>
 						{{{ each @value }}}
+						<table>
 							<tr>
 							{{{ if isObject(@value) }}}
 								{{{ each @value }}}
 									{{{ each @value }}}
 										<tr>
-											<th></th>
+											<th>Option</th>
 											<td>{ @key }</td>
 											<td>{ @value }</td>
 										</tr>
@@ -45,8 +64,8 @@
 								<td>{ @value }</td>
 							{{{ end }}}
 							</tr>
+						</table>
 						{{{ end }}}
-						<table>
 					{{{ end }}}
 					<hr />
 				{{{ end }}}
