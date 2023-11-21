@@ -40,23 +40,18 @@
 					<tbody>
 						{{{ each customFields }}}
 							<tr>
-								<td>key1: { @key }</td>
+								<td>{ @key }</td>
 									{{{ each @value }}}
-											<td>{ ./label }</td>
-											<td>{ ./placeholder }</td>
-											<td>{ ./help_text }</td>
-											<td>{ ./type }</td>
-											<td>{ ./validation_type }</td>
-											<td>{ ./required }</td>
-											<td>{ ./autocomplete }</td>
+										{{{ each @value }}}
+												<td>{ ./label }</td>
+												<td>{ ./placeholder }</td>
+												<td>{ ./help_text }</td>
+												<td>{ ./type }</td>
+												<td>{ ./validation_type }</td>
+												<td>{ ./required }</td>
+												<td>{ ./autocomplete }</td>
+										{{{ end }}}
 									{{{ end }}}
-							</tr>
-						{{{ end }}}
-						<hr />
-						{{{ each customFields }}}
-							<tr>
-								<td>key2: { @key }</td>
-								<td>value2: { @value }</td>
 							</tr>
 						{{{ end }}}
 					</tbody>
