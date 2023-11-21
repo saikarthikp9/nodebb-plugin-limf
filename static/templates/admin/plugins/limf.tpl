@@ -42,7 +42,12 @@
 							<tr>
 								<td> { @key }</td>
 									{{{ each @value }}}
-										<td>key: { @key } value: { @value }</td>
+										<td>key: { @key } value: { @value.label }</td>
+									{{{ end }}}
+									{{{ each @value }}}
+										{{{ each @value }}}
+											<td>key: { @key } value: { customFields.label }</td>
+										{{{ end }}}
 									{{{ end }}}
 							</tr>
 						{{{ end }}}
