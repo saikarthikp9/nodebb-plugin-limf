@@ -40,17 +40,9 @@
 					<tbody>
 						{{{ each customFields }}}
 							<tr>
-								<td>{ @key }</td>
+								<td> { @key }</td>
 									{{{ each @value }}}
-										{{{ each @value }}}
-												<td>{ ./label }</td>
-												<td>{ ./placeholder }</td>
-												<td>{ ./help_text }</td>
-												<td>{ ./type }</td>
-												<td>{ ./validation_type }</td>
-												<td>{ ./required }</td>
-												<td>{ ./autocomplete }</td>
-										{{{ end }}}
+										<td>key: { @key } value: { @value }</td>
 									{{{ end }}}
 							</tr>
 						{{{ end }}}
