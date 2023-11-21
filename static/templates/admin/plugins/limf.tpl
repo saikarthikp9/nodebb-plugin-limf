@@ -24,6 +24,18 @@
 			</form>
 			<div class="mb-3">
 				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
+				{{{ each customFields }}}
+						{ @key }
+						{{{ each @value }}}
+							key: { @key } value: { ../label },
+						{{{ end }}}
+						<hr />
+						{{{ each @value }}}
+							{{{ each @value }}}
+								value: { @value } value.label: { ../label },
+							{{{ end }}}
+						{{{ end }}}
+				{{{ end }}}
 				<table>
 					<thead>
 						<tr>
