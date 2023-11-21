@@ -22,44 +22,60 @@
 					</div>
 				</div>
 			</form>
-		</div>
-		<div class="mb-3">
-			<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
-			<table>
-				<thead>
-					<tr>
-					<th>Interstitial</th>
-					<th>Label</th>
-					<th>Placeholder</th>
-					<th>Help Text</th>
-					<th>Type</th>
-					<th>Validation Type</th>
-					<th>Required</th>
-					<th>Autocomplete</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- BEGIN customFields -->
+			<div class="mb-3">
+				<h5 class="fw-bold tracking-tight">Current Custom Fields</h5>
+				<table>
+					<thead>
+						<tr>
+						<th>Interstitial</th>
+						<th>Label</th>
+						<th>Placeholder</th>
+						<th>Help Text</th>
+						<th>Type</th>
+						<th>Validation Type</th>
+						<th>Required</th>
+						<th>Autocomplete</th>
+						</tr>
+					</thead>
+					<tbody>
 						{{{ each customFields }}}
-							{{{ each this }}}
-								{ @key }: { this }
-							{{{ end }}}
+							<tr>
+								{{{ each @value }}}
+									<td>{ @key }</td>
+									<td>{ ./label }</td>
+									<td>{ ./placeholder }</td>
+									<td>{ ./help_text }</td>
+									<td>{ ./type }</td>
+									<td>{ ./validation_type }</td>
+									<td>{ ./required }</td>
+									<td>{ ./autocomplete }</td>
+								{{{ end }}}
+							</tr>
 						{{{ end }}}
-					<!-- END -->
-				</tbody>
-			</table>
-			{ customFields }
-			{{{ each customFields }}}
-				{{{ each @value }}}
-					{ @key }: { @value }
+						
+					</tbody>
+				</table>
+				{ customFields }
+				{{{ each customFields }}}
+					{{{ each @value }}}
+						{ @key }: { @value }
+					{{{ end }}}
 				{{{ end }}}
-			{{{ end }}}
-			{{{ each customFields }}}
-				{{{ each @value }}}
-					{ ./label }
+				{{{ each customFields }}}
+					{{{ each @value }}}
+						{ ./label }
+					{{{ end }}}
 				{{{ end }}}
-			{{{ end }}}
+				<!-- BEGIN customFields -->
+					{{#each customFields}}
+						{{#each this}}
+							{{@key}}: {{this}}
+						{{/each}}
+					{{/each}}
+				<!-- END -->
+			</div>
 		</div>
+
 
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
 		
