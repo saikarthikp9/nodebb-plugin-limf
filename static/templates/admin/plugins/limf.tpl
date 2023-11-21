@@ -30,6 +30,7 @@
 						{{{ each @value }}}
 							{ @value },
 						{{{ end }}}
+						<br>
 					{{{ end }}}
 					<hr />
 				{{{ end }}}
