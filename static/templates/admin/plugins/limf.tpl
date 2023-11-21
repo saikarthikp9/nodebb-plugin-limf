@@ -39,20 +39,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					{{{ each customFields }}}
-						<tr>
-							{{{ each @value }}}
-								<td>{ @key }</td>
-								<td>{ ./label }</td>
-								<td>{ ./placeholder }</td>
-								<td>{ ./help_text }</td>
-								<td>{ ./type }</td>
-								<td>{ ./validation_type }</td>
-								<td>{ ./required }</td>
-								<td>{ ./autocomplete }</td>
-							{{{ end }}}
-						</tr>
-					{{{ end }}}
+					<!-- BEGIN customFields -->
+						{{#each customFields}}
+							{{#each this}}
+								{{@key}}: {{this}}
+							{{/each}}
+						{{/each}}
+					<!-- END -->
 				</tbody>
 			</table>
 			{ customFields }
