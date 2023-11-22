@@ -25,20 +25,17 @@ function handleSettingsForm() {
     console.log($(".limf-settings"));
     console.log("####################HERE ^^#####################");
     // TODO: set limf-settings after JSON.parse or dont save that part and maybe even show error
-    save("limf", $(".limf-settings")); // pass in a function in the 3rd parameter to override the default success/failure handler
-  });
-}
-
-function setupColorInputs() {
-  var colorInputs = $('[data-settings="colorpicker"]');
-  colorInputs.on("change", updateColors);
-  updateColors();
-}
-
-function updateColors() {
-  $("#preview").css({
-    color: $("#color").val(),
-    "background-color": $("#bgColor").val(),
+    save("limf", $(".limf-settings"), function () {
+      alerts.alert({
+        type: "success",
+        alert_id: "limf-saved",
+        title: "Settings Saved",
+        message: "Please restart the to apply these settings",
+        clickfn: function () {
+          socket.emit("admin.reload");
+        },
+      });
+    }); // pass in a function in the 3rd parameter to override the default success/failure handler
   });
 }
 
