@@ -6,7 +6,7 @@
 	It is not bundled into the min file that is served on the first load of the page.
 */
 
-import { save, load, alerts } from "settings";
+import { save, load, alert } from "settings";
 import * as uploader from "uploader";
 
 export function init() {
@@ -15,7 +15,7 @@ export function init() {
 }
 
 function customAlert() {
-  alerts.alert({
+  alert({
     type: "success",
     alert_id: "limf-saved",
     title: "Settings Saved",
