@@ -104,6 +104,18 @@ const defaultCustomFields = {
   },
 };
 
+const customFieldsHelper = {
+  multiple: "true/false",
+  required: "true/false",
+  placeholder: "Optional;",
+  type: "text/select",
+  select_options: "Required if type is select; array of 'value' and 'label'",
+  help_text: "Optional;",
+  validation_type: "Optional; name/phone/address",
+  autocomplete:
+    "optional, not used if type is select; 'off' or anything from: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete",
+};
+
 var formFields = [];
 let userGroup = null;
 let customFields = null;
@@ -117,21 +129,23 @@ function validation(formData, interstitialIndex) {
   var error = "";
   for (var key in customFields[interstitialIndex]) {
     var value = formData[key];
-    if (customFields[interstitialIndex][key].validation_type == "name") {
-      if (!/^([a-zA-Z ]){2,30}$/.test(value)) {
-        error += `Invalid ${customFields[interstitialIndex][key].label}. `;
-      }
-    } else if (
-      customFields[interstitialIndex][key].validation_type == "phone"
-    ) {
-      if (!/^\+([0-9]{1,3})([0-9]{6,14})$/.test(value)) {
-        error += "Invalid phone number (Must start with a '+'). ";
-      }
-    } else if (
-      customFields[interstitialIndex][key].validation_type == "address"
-    ) {
-      if (!/^[a-zA-Z]{4,49}(?:[\s-'][a-zA-Z]+)*$/.test(value)) {
-        error += `Invalid ${customFields[interstitialIndex][key].label} (Include City, State). `;
+    if (customFields[interstitialIndex][key].validation_type !== undefined) {
+      if (customFields[interstitialIndex][key].validation_type == "name") {
+        if (!/^([a-zA-Z ]){2,30}$/.test(value)) {
+          error += `Invalid ${customFields[interstitialIndex][key].label}. `;
+        }
+      } else if (
+        customFields[interstitialIndex][key].validation_type == "phone"
+      ) {
+        if (!/^\+([0-9]{1,3})([0-9]{6,14})$/.test(value)) {
+          error += "Invalid phone number (Must start with a '+'). ";
+        }
+      } else if (
+        customFields[interstitialIndex][key].validation_type == "address"
+      ) {
+        if (!/^[a-zA-Z]{4,49}(?:[\s-'][a-zA-Z]+)*$/.test(value)) {
+          error += `Invalid ${customFields[interstitialIndex][key].label} (Include City, State). `;
+        }
       }
     }
   }
@@ -198,10 +212,13 @@ plugin.init = async (params) => {
       if (type == "text") {
         formFields[interstitialIndex] += `
       <label class="form-label" for="${key}">${label}</label>
-      <input class="form-control" type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" autocomplete="${autocomplete}" ${
+      <input class="form-control" type="${type}" id="${key}" name="${key}" "${
+          placeholder ? "placeholder=" + placeholder : ""
+        }" "${autocomplete ? "autocomplete=" + autocomplete : ""}" ${
           required ? "required" : ""
         } />
-      <p class="form-text">${help_text}</p>
+        ${help_text ? `<p class="form-text">${help_text}</p>` : ""}
+
     `;
       } else if (type == "select") {
         const select_options =
