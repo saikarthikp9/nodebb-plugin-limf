@@ -223,6 +223,7 @@ plugin.init = async (params) => {
     `;
       } else if (type == "checkbox") {
         formFields[interstitialIndex] += `
+        <p>${label}</p><br>
         <p>${help_text}</p>
         <div class="form-check mb-3">
           <input class="form-check-input" type="checkbox" name="${key}" id="${key}" ${
