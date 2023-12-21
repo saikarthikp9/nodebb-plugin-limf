@@ -49,19 +49,21 @@
 						<table>
 						{{{ each @value }}}
 							<tr>
-								{{{ if isObject(@value) }}}
-									{{{ each @value }}}
-											<th>Option { @key }</th>
-											<td>
-												{{{ each @value }}}
-													{ @key }: { @value }<br>
-												{{{ end }}}
-											</td>
-									{{{ end }}}
-								{{{ else }}}
-									<th>{ @key }</th>
-									<td>{ @value }</td>
+							{{{ if isObject(@value) }}}
+								{{{ each @value }}}
+									<tr>
+										<th>Option { @key }</th>
+										<td>
+											{{{ each @value }}}
+												{ @key }: { @value }<br>
+											{{{ end }}}
+										</td>
+									</tr>
 								{{{ end }}}
+							{{{ else }}}
+								<th>{ @key }</th>
+								<td>{ @value }</td>
+							{{{ end }}}
 							</tr>
 						{{{ end }}}
 						</table>
