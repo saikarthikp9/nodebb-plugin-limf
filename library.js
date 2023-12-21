@@ -108,9 +108,9 @@ const customFieldsHelper = {
   multiple: "true/false",
   required: "true/false",
   placeholder: "Optional;",
-  type: "text/select",
+  type: "text/select/checkbox",
   select_options: "Required if type is select; array of 'value' and 'label'",
-  help_text: "Optional;",
+  help_text: "Optional; for checkbox, this will be displayed on top of it",
   validation_type: "Optional; name/phone/address",
   autocomplete:
     "optional, not used if type is select; 'off' or anything from: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete",
@@ -220,6 +220,18 @@ plugin.init = async (params) => {
         ${help_text ? `<p class="form-text">${help_text}</p>` : ""}
 
     `;
+      } else if (type == "checkbox") {
+        formFields[interstitialIndex] += `
+        <label for="${key}">${label}</label>
+        <div class="tos">${help_text}</div>
+        <div class="checkbox">
+          <label>
+          <input class="form-control" type="${type}" id="${key}" name="${key}" ${
+          required ? "required" : ""
+        } />
+            </label>
+        </div>
+      `;
       } else if (type == "select") {
         const select_options =
           customFields[interstitialIndex][key].select_options;
@@ -270,7 +282,13 @@ plugin.init = async (params) => {
     (function (customFields) {
       return function (req, res, next) {
         // Call the renderAdminPage function and pass the customFields
-        controllers.renderAdminPage(req, res, next, customFields);
+        controllers.renderAdminPage(
+          req,
+          res,
+          next,
+          customFields,
+          customFieldsHelper
+        );
       };
     })(customFields)
   );
