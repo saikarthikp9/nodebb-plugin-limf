@@ -71,14 +71,15 @@
 					{{{ end }}}
 					<hr />
 				{{{ end }}}
-				{{{ each customFieldsHelper }}}
-						<table>
-							<tr>
-								<th>{ @key }</th>
-								<td>{ @value }</td>
-							</tr>
-						</table>
-				{{{ end }}}
+				<h5 class="fw-bold tracking-tight">Custom Fields Key Guide</h5>
+				<table>
+					{{{ each customFieldsHelper }}}
+						<tr>
+							<th>{ @key }</th>
+							<td>{ @value }</td>
+						</tr>
+					{{{ end }}}
+				</table>
 			</div>
 		</div>
 		<!-- IMPORT admin/partials/settings/toc.tpl -->
