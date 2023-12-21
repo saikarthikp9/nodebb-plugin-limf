@@ -216,7 +216,8 @@ plugin.init = async (params) => {
           placeholder ? "placeholder=" + placeholder : ""
         }" "${autocomplete ? "autocomplete=" + autocomplete : ""}" ${
           required ? "required" : ""
-        } />
+        } autocapitalize="off"
+        />
         ${help_text ? `<p class="form-text">${help_text}</p>` : ""}
 
     `;
