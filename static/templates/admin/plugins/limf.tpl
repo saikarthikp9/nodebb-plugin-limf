@@ -73,14 +73,11 @@
 				{{{ end }}}
 				{{{ each customFieldsHelper }}}
 						<table>
-						{{{ each @value }}}
 							<tr>
 								<th>{ @key }</th>
 								<td>{ @value }</td>
 							</tr>
-						{{{ end }}}
 						</table>
-					<hr />
 				{{{ end }}}
 			</div>
 		</div>
