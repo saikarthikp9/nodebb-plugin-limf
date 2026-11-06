@@ -1,5 +1,5 @@
 {
-  "id": "nodebb-plugin-limf",
+  "id": "nodebb-plugin-saiberio-limf",
   "url": "https://github.com/saikarthikp9/nodebb-plugin-limf",
   "hooks": [
     { "hook": "static:app.load", "method": "init" },

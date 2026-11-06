@@ -6,7 +6,9 @@ const meta = require.main.require("./src/meta");
 const controllers = require("./lib/controllers");
 const routeHelpers = require.main.require("./src/routes/helpers");
 const Benchpress = require.main.require("benchpressjs");
+const sanitizeHtml = require.main.require("sanitize-html");
 const validator = require.main.require("validator");
+const { version: pluginVersion } = require("./package.json");
 
 // The numbers represent the interstitial index number and grouping of fields
 const defaultCustomFields = {
@@ -122,6 +124,14 @@ let userGroup = null;
 let customFields = null;
 
 const escapeHtml = (value) => validator.escape(String(value ?? ""));
+const sanitizeHelpText = (value) =>
+  sanitizeHtml(String(value ?? ""), {
+    allowedTags: ["a", "b", "br", "em", "i", "li", "ol", "p", "strong", "ul"],
+    allowedAttributes: {
+      a: ["href", "rel", "target"],
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+  });
 
 // validates only if validation_type is set OR if required
 function validation(formData, interstitialIndex) {
@@ -219,7 +229,7 @@ plugin.init = async (params) => {
         : "";
       const requiredAttribute = required ? " required" : "";
       const helpText = help_text
-        ? `<p class="form-text">${escapeHtml(help_text)}</p>`
+        ? `<div class="form-text">${sanitizeHelpText(help_text)}</div>`
         : "";
       if (!formFields[interstitialIndex]) {
         formFields[interstitialIndex] = "";
@@ -283,7 +293,7 @@ plugin.init = async (params) => {
       winston.info(
         `[plugins/limf] Navigated to ${nconf.get("relative_path")}/limf`
       );
-      res.render("limf", { uid: req.uid });
+      res.render("limf", { uid: req.uid, pluginVersion });
     }
   );
 
