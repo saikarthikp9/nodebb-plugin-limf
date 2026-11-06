@@ -1,6 +1,5 @@
 "use strict";
 
-const nconf = require.main.require("nconf");
 const winston = require.main.require("winston");
 const meta = require.main.require("./src/meta");
 const controllers = require("./lib/controllers");
@@ -8,7 +7,6 @@ const routeHelpers = require.main.require("./src/routes/helpers");
 const Benchpress = require.main.require("benchpressjs");
 const sanitizeHtml = require.main.require("sanitize-html");
 const validator = require.main.require("validator");
-const { version: pluginVersion } = require("./package.json");
 
 // The numbers represent the interstitial index number and grouping of fields
 const defaultCustomFields = {
@@ -135,10 +133,6 @@ const sanitizeHelpText = (value) =>
 
 // validates only if validation_type is set OR if required
 function validation(formData, interstitialIndex) {
-  console.log(
-    "################ Validation for interstitialIndex:",
-    interstitialIndex
-  );
   var error = "";
   for (var key in customFields[interstitialIndex]) {
     var value = formData[key];
@@ -162,7 +156,6 @@ function validation(formData, interstitialIndex) {
       }
     }
   }
-  console.log("################ Validation errors:", error);
   if (error == "") {
     return null;
   }
@@ -171,12 +164,10 @@ function validation(formData, interstitialIndex) {
 
 const user = require.main.require("./src/user");
 const groups = require.main.require("./src/groups");
-const db = require.main.require("./src/database");
 
 const plugin = {};
 
-plugin.init = async (params) => {
-  const { router /* , middleware , controllers */ } = params;
+plugin.init = async ({ router }) => {
 
   // setup benchpress custom helper function
   Benchpress.registerHelper("isObject", function (val) {
@@ -214,7 +205,6 @@ plugin.init = async (params) => {
     });
   }
 
-  console.log("#################### SETTINGS FIELDS ####################");
   for (var interstitialIndex in customFields) {
     for (var key in customFields[interstitialIndex]) {
       const { label, placeholder, help_text, type, required, autocomplete } =
@@ -267,36 +257,10 @@ plugin.init = async (params) => {
         html += `</select>${helpText}`;
         formFields[interstitialIndex] += html;
       } else {
-        console.log("#################### ERROR ####################");
-        console.log("Unsuppored type:", type);
+        winston.warn(`[plugins/limf] Unsupported field type: ${type}`);
       }
     }
   }
-  /**
-   * We create two routes for every view. One API call, and the actual route itself.
-   * Use the `setupPageRoute` helper and NodeBB will take care of everything for you.
-   *
-   * Other helpers include `setupAdminPageRoute` and `setupAPIRoute`
-   * */
-  routeHelpers.setupPageRoute(
-    router,
-    "/limf",
-    [
-      (req, res, next) => {
-        winston.info(
-          `[plugins/limf] In middleware. This argument can be either a single middleware or an array of middlewares`
-        );
-        setImmediate(next);
-      },
-    ],
-    (req, res) => {
-      winston.info(
-        `[plugins/limf] Navigated to ${nconf.get("relative_path")}/limf`
-      );
-      res.render("limf", { uid: req.uid, pluginVersion });
-    }
-  );
-
   routeHelpers.setupAdminPageRoute(
     router,
     "/admin/plugins/limf",
@@ -312,50 +276,6 @@ plugin.init = async (params) => {
         );
       };
     })(customFields, customFieldsHelper)
-  );
-};
-
-/**
- * If you wish to add routes to NodeBB's RESTful API, listen to the `static:api.routes` hook.
- * Define your routes similarly to above, and allow core to handle the response via the
- * built-in helpers.formatApiResponse() method.
- *
- * In this example route, the `ensureLoggedIn` middleware is added, which means a valid login
- * session or bearer token (which you can create via ACP > Settings > API Access) needs to be
- * passed in.
- *
- * To call this example route:
- *   curl -X GET \
- * 		http://example.org/api/v3/plugins/limf/test \
- * 		-H "Authorization: Bearer some_valid_bearer_token"
- *
- * Will yield the following response JSON:
- * 	{
- *		"status": {
- *			"code": "ok",
- *			"message": "OK"
- *		},
- *		"response": {
- *			"foobar": "test"
- *		}
- *	}
- */
-plugin.addRoutes = async ({ router, middleware, helpers }) => {
-  const middlewares = [
-    middleware.ensureLoggedIn, // use this if you want only registered users to call this route
-    // middleware.admin.checkPrivileges,	// use this to restrict the route to administrators
-  ];
-
-  routeHelpers.setupApiRoute(
-    router,
-    "get",
-    "/limf/:param1",
-    middlewares,
-    (req, res) => {
-      helpers.formatApiResponse(200, res, {
-        foobar: req.params.param1,
-      });
-    }
   );
 };
 
@@ -412,65 +332,31 @@ plugin.customFields = function (params, callback) {
 };
 
 plugin.registerInterstitial = async function (data) {
-  const url = data.req.originalUrl;
-  console.log("############# url", url);
-
-  if (!url.startsWith("/register/complete")) {
-    console.log("############# return", "not register/complete");
+  if (!data.req.originalUrl.startsWith("/register/complete")) {
     return data;
   }
 
-  // if there is no user data (null case check)
   if (!data.userData) {
-    console.log("############# error", "Invalid Data");
     throw new Error("Invalid Data");
   }
 
   var customInterstitals = [];
-  // if the user already has this data saved, return early. userData contains the contents of req.session.
-  // just checking if at least the first value is entered
-  // TODO: replace with maker
 
   for (let interstitialIndex in customFields) {
     if (!data.userData[Object.keys(customFields[interstitialIndex])[0]]) {
-      console.log("############# ", "not in userData");
-      console.log(
-        "Checked in data.userData for ",
-        Object.keys(customFields[interstitialIndex])[0]
-      );
-      // add interstitial
       var customInterstital = {
         template: "partials/customRegistration",
         data: {
           fields: formFields[interstitialIndex],
         },
-        // called when the form is submitted. userData is req.session, formData is the serialized form data in object format. Do value checks here and set the value in userData. It is checked at the top of this code block, remember?
         callback: (userData, formData, next) => {
-          console.log(
-            "############# callback for interstitialIndex",
-            interstitialIndex
-          );
-
-          // TODO: VALIDATION
           var error = validation(formData, interstitialIndex);
-          // var error = null;
-          // throw an error if the user didn't submit the custom data. You can pass a language key here, or just plain text. The end user will have the page reloaded and your error will be shown.
           if (error == null) {
-            // set all values from customFields from formData to userData
-            console.log(
-              "############# set userData for interstitialIndex ",
-              interstitialIndex
-            );
             for (var key in customFields[interstitialIndex]) {
-              console.log("############# set userData for key ", key);
               userData[key] = formData[key];
-              console.log("userData[key]", userData[key]);
             }
-            console.log("############# userData set and then next(null)");
             next(null);
           } else {
-            console.log("############# error and then next(error)");
-            console.log(error);
             next(new Error(error));
           }
         },
@@ -479,24 +365,9 @@ plugin.registerInterstitial = async function (data) {
     }
   }
 
-  // I think this check is not required
-  // if data.userData.uid is present it means this is an EXISTING user, not a new user. Check their hash to see whether they submitted the data.
-  // if (data.userData.uid) {
-  //   const customData = await db.getObjectField(
-  //     `user:${data.userData.uid}`,
-  //     "test"
-  //   );
-  //   if (customData) {
-  //     console.log("############# return", "already in DB");
-  //     return data;
-  //   }
-  // }
-
-  // add interstitial to data
   for (var interstitial of customInterstitals) {
     data.interstitials.unshift(interstitial);
   }
-  console.log("############# last return");
   return data;
 };
 
@@ -512,7 +383,6 @@ plugin.creatingUser = function (params, callback) {
 
 plugin.createdUser = async function (params) {
   try {
-    console.log("plugin.createdUser.params");
     var addCustomData = {};
 
     var index = 0;
@@ -537,13 +407,11 @@ plugin.createdUser = async function (params) {
       await groups.join(userGroup, params.user.uid);
     }
   } catch (error) {
-    console.log(error);
+    winston.error("[plugins/limf] Unable to store registration data");
   }
 };
 
 plugin.addToApprovalQueue = function (params, callback) {
-  console.log("addToApprovalQueue");
-
   var data = params.data;
   var userData = params.userData;
 

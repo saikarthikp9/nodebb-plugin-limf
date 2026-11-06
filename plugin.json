@@ -3,7 +3,6 @@
   "url": "https://github.com/saikarthikp9/nodebb-plugin-limf",
   "hooks": [
     { "hook": "static:app.load", "method": "init" },
-    { "hook": "static:api.routes", "method": "addRoutes" },
     { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
     { "hook": "filter:user.whitelistFields", "method": "whitelistFields" },
     {
@@ -23,10 +22,7 @@
     "static": "./static"
   },
   "scss": ["static/scss/limf.scss"],
-  "scripts": ["static/lib/main.js"],
-  "acpScripts": ["static/lib/acp-main.js"],
   "modules": {
-    "../client/limf.js": "./static/lib/limf.js",
     "../admin/plugins/limf.js": "./static/lib/admin.js"
   },
   "templates": "static/templates"
