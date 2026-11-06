@@ -1,7 +1,6 @@
 {
   "id": "nodebb-plugin-limf",
-  "url": "https://github.com/NodeBB/nodebb-plugin-limf",
-  "library": "./library.js",
+  "url": "https://github.com/saikarthikp9/nodebb-plugin-limf",
   "hooks": [
     { "hook": "static:app.load", "method": "init" },
     { "hook": "static:api.routes", "method": "addRoutes" },

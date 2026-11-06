@@ -6,6 +6,7 @@ const meta = require.main.require("./src/meta");
 const controllers = require("./lib/controllers");
 const routeHelpers = require.main.require("./src/routes/helpers");
 const Benchpress = require.main.require("benchpressjs");
+const validator = require.main.require("validator");
 
 // The numbers represent the interstitial index number and grouping of fields
 const defaultCustomFields = {
@@ -120,6 +121,8 @@ var formFields = [];
 let userGroup = null;
 let customFields = null;
 
+const escapeHtml = (value) => validator.escape(String(value ?? ""));
+
 // validates only if validation_type is set OR if required
 function validation(formData, interstitialIndex) {
   console.log(
@@ -206,44 +209,52 @@ plugin.init = async (params) => {
     for (var key in customFields[interstitialIndex]) {
       const { label, placeholder, help_text, type, required, autocomplete } =
         customFields[interstitialIndex][key];
+      const fieldName = escapeHtml(key);
+      const fieldLabel = escapeHtml(label);
+      const placeholderAttribute = placeholder
+        ? ` placeholder="${escapeHtml(placeholder)}"`
+        : "";
+      const autocompleteAttribute = autocomplete
+        ? ` autocomplete="${escapeHtml(autocomplete)}"`
+        : "";
+      const requiredAttribute = required ? " required" : "";
+      const helpText = help_text
+        ? `<p class="form-text">${escapeHtml(help_text)}</p>`
+        : "";
       if (!formFields[interstitialIndex]) {
         formFields[interstitialIndex] = "";
       }
       if (type == "text") {
         formFields[interstitialIndex] += `
-      <label class="form-label" for="${key}">${label}</label>
-      <input class="form-control" type="${type}" id="${key}" name="${key}" "${
-          placeholder ? "placeholder=" + placeholder : ""
-        }" "${autocomplete ? "autocomplete=" + autocomplete : ""}" ${
-          required ? "required" : ""
-        } autocapitalize="off"
+      <label class="form-label" for="${fieldName}">${fieldLabel}</label>
+      <input class="form-control" type="text" id="${fieldName}" name="${fieldName}"${placeholderAttribute}${autocompleteAttribute}${requiredAttribute} autocapitalize="off"
         />
-        ${help_text ? `<p class="form-text">${help_text}</p>` : ""}
+        ${helpText}
 
     `;
       } else if (type == "checkbox") {
         formFields[interstitialIndex] += `
-        <p>${label}</p>
-        <p>${help_text}</p>
+        <p>${fieldLabel}</p>
+        ${helpText}
         <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" name="${key}" id="${key}" ${
-          required ? "required" : ""
-        }>
-          <label class="form-check-label" for="${key}">${label}</label>
+          <input class="form-check-input" type="checkbox" name="${fieldName}" id="${fieldName}"${requiredAttribute}>
+          <label class="form-check-label" for="${fieldName}">${fieldLabel}</label>
         </div>
       `;
       } else if (type == "select") {
         const select_options =
           customFields[interstitialIndex][key].select_options;
         const multiple = customFields[interstitialIndex][key].multiple;
-        var html = `<label class="form-label" for="${key}">${label}</label>
-          <select class="form-control" type="text" name="${key}" id="${key}" ${
-          multiple ? "multiple" : ""
-        }>`;
-        for (var option of select_options) {
-          html += `<option value="${option.value}">${option.label}</option>`;
+        var html = `<label class="form-label" for="${fieldName}">${fieldLabel}</label>
+          <select class="form-control" name="${fieldName}" id="${fieldName}"${
+          multiple ? " multiple" : ""
+        }${requiredAttribute}>`;
+        for (var option of select_options || []) {
+          html += `<option value="${escapeHtml(option.value)}">${escapeHtml(
+            option.label
+          )}</option>`;
         }
-        html += `</select><p class="form-text">${help_text}</p>`;
+        html += `</select>${helpText}`;
         formFields[interstitialIndex] += html;
       } else {
         console.log("#################### ERROR ####################");

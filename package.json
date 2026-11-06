@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-saiberio-limf",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Custom plugin for the LIMF forum",
   "main": "library.js",
   "repository": {
@@ -32,7 +32,7 @@
   },
   "readmeFilename": "README.md",
   "nbbpm": {
-    "compatibility": "^3.2.0"
+    "compatibility": ">=4.14.0 <5.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "18.4.0",

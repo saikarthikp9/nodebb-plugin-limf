@@ -1,5 +1,5 @@
 <div>
 	<div class="mb-3">
-		{fields}
+		{{fields}}
 	</div>
 </div>
