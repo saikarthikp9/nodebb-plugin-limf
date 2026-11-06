@@ -3,6 +3,7 @@
 
 	<div class="row m-0">
 		<div id="spy-container" class="col-12 col-md-8 px-0 mb-4" tabindex="0">
+			<p class="text-muted mb-3">Plugin version: {pluginVersion}</p>
 			<form role="form" class="limf-settings">
 				<div>
 					<h5 class="fw-bold tracking-tight settings-header">New User Group</h5>
